@@ -1,0 +1,21 @@
+﻿using GestioneTurniAgenti.Server.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GestioneTurniAgenti.Server.Services.Contracts
+{
+    public interface ITurniRepository : IBaseRepository<Turno>
+    {
+        Task<IEnumerable<Turno>> GetByFilterWithNavigationProps(params Expression<Func<Turno, bool>>[] filters);
+
+        Task<bool> CheckAgenteIdExistance(Guid agenteId);
+
+        Task<bool> CheckEventoIdExistance(Guid eventoId);
+
+        Task<bool> CheckDuplicatedTurno(Guid agenteId, Guid eventoId, DateTime data);
+    }
+}
