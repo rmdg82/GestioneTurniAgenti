@@ -17,5 +17,7 @@ namespace GestioneTurniAgenti.Server.Services.Contracts
         Task<bool> CheckEventoIdExistance(Guid eventoId);
 
         Task<bool> CheckDuplicatedTurno(Guid agenteId, Guid eventoId, DateTime data);
+
+        Task<bool> CheckCompatibilityEventoWithData(Guid eventoId, DateTime data);
     }
 }

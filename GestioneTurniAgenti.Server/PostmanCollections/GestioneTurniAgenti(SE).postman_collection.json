@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "077186d1-e7c5-464c-8a54-24556da78c4c",
+		"name": "GestioneTurniAgenti(SE)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllAgenti",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/anagrafica/agenti",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"anagrafica",
+						"agenti"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAgenteById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/anagrafica/agenti/c4a4a55e-8d1a-4f05-8312-61b884a7fb38",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"anagrafica",
+						"agenti",
+						"c4a4a55e-8d1a-4f05-8312-61b884a7fb38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllReparti",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/anagrafica/reparti",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"anagrafica",
+						"reparti"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetRepartiById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/anagrafica/reparti/144913db-12eb-4751-ab94-be4b26b777e1",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"anagrafica",
+						"reparti",
+						"144913db-12eb-4751-ab94-be4b26b777e1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAgentiFromRepartoId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/anagrafica/reparti/144913db-12eb-4751-ab94-be4b26b777e1/agenti",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"anagrafica",
+						"reparti",
+						"144913db-12eb-4751-ab94-be4b26b777e1",
+						"agenti"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTurni",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/turni",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"turni"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTurniById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/turni/c4a4a55e-8d1a-4f05-8312-61b884a7fb38",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"turni",
+						"c4a4a55e-8d1a-4f05-8312-61b884a7fb38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTurno",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"agenteId\": \"ca0d2a00-fdf1-4117-872b-19f537c59d39\",\r\n    \"eventoId\": \"95146179-3589-4a7a-916e-0d696574273e\",\r\n    \"data\": \"2021-08-23T00:49:51.742Z\",\r\n    \"note\": \"Nota1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/turni",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"turni"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTurno",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"agenteId\": \"c6f798ed-211e-4c5e-8855-c7512bc66839\",\r\n  \"eventoId\": \"95146179-3589-4a7a-916e-0d696574273e\",\r\n  \"data\": \"2021-08-23T01:30:29.091Z\",\r\n  \"note\": \"Nota2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/turni/83957e21-07a0-43c8-b0d5-25f384355d9c",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"turni",
+						"83957e21-07a0-43c8-b0d5-25f384355d9c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTurno",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/turni/8f17f8b4-a671-4d30-91c5-35043b470c68",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"turni",
+						"8f17f8b4-a671-4d30-91c5-35043b470c68"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllEventi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/eventi",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"eventi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEventoById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/eventi/95146179-3589-4a7a-916e-0d696574273e",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"eventi",
+						"95146179-3589-4a7a-916e-0d696574273e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateEvento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Evento3\",\r\n  \"inizio\": \"2021-08-01\",\r\n  \"fine\": \"2021-09-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/eventi",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"eventi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEvento",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Evento1Rinominiato\",\r\n  \"inizio\": \"2021-08-01\",\r\n  \"fine\": \"2021-09-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/api/eventi/95146179-3589-4a7a-916e-0d696574273e",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"eventi",
+						"95146179-3589-4a7a-916e-0d696574273e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEvento",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/eventi/16d535ca-842f-40ef-a68e-f2e9802bb393",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"eventi",
+						"16d535ca-842f-40ef-a68e-f2e9802bb393"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "localhost",
+			"value": "https://localhost:5001"
+		}
+	]
+}

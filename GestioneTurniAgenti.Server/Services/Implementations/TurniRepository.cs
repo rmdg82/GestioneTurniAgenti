@@ -28,6 +28,22 @@ namespace GestioneTurniAgenti.Server.Services.Implementations
             return agente != null;
         }
 
+        public async Task<bool> CheckCompatibilityEventoWithData(Guid eventoId, DateTime data)
+        {
+            var evento = await _context.Eventi.FindAsync(eventoId);
+            if (evento == null)
+            {
+                return false;
+            }
+
+            if (data > evento.Inizio || data < evento.Fine)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task<bool> CheckDuplicatedTurno(Guid agenteId, Guid eventoId, DateTime data)
         {
             var turno = await _context.Turni

@@ -19,8 +19,6 @@ namespace GestioneTurniAgenti.Server.Profiles
                     opt => opt.MapFrom(src => src.Reparto.Nome));
 
             CreateMap<Reparto, RepartoDto>().ReverseMap();
-
-            CreateMap<Evento, EventoDto>().ReverseMap();
         }
     }
 }

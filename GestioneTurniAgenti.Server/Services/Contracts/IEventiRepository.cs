@@ -10,5 +10,7 @@ namespace GestioneTurniAgenti.Server.Services.Contracts
 {
     public interface IEventiRepository : IBaseRepository<Evento>
     {
+        Task<bool> CheckDuplicatedEvento(DateTime inizio, DateTime fine, string nome);
+        Task<bool> CheckTurniLinkedToEvento(Guid eventoId);
     }
 }

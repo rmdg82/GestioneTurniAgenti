@@ -57,19 +57,24 @@ namespace GestioneTurniAgenti.Server.Controllers
                 return BadRequest("TurnoForCreationDto object is null");
             }
 
-            if (!(await _turniRepository.CheckAgenteIdExistance(turnoForCreation.AgenteId)))
+            if (!await _turniRepository.CheckAgenteIdExistance(turnoForCreation.AgenteId))
             {
                 return NotFound($"Cannot found AgenteId {turnoForCreation.AgenteId} on the database.");
             }
 
-            if (!(await _turniRepository.CheckEventoIdExistance(turnoForCreation.EventoId)))
+            if (!await _turniRepository.CheckEventoIdExistance(turnoForCreation.EventoId))
             {
                 return NotFound($"Cannot found EventoId {turnoForCreation.EventoId} on the database.");
             }
 
+            if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForCreation.EventoId, turnoForCreation.Data))
+            {
+                return BadRequest($"Evento {turnoForCreation.EventoId} is not compatible with date {turnoForCreation.Data}");
+            }
+
             if (await _turniRepository.CheckDuplicatedTurno(turnoForCreation.AgenteId, turnoForCreation.EventoId, turnoForCreation.Data))
             {
-                return BadRequest($"Turno with agenteId {turnoForCreation.AgenteId}, eventoId {turnoForCreation.EventoId} and data {turnoForCreation.Data} already exists.");
+                return BadRequest($"Turno with agenteId {turnoForCreation.AgenteId}, eventoId {turnoForCreation.EventoId} and data {turnoForCreation.Data} already exists in the database.");
             }
 
             var turno = _mapper.Map<Turno>(turnoForCreation);
@@ -98,14 +103,19 @@ namespace GestioneTurniAgenti.Server.Controllers
                 return NotFound();
             }
 
-            if (!(await _turniRepository.CheckAgenteIdExistance(turnoForUpdate.AgenteId)))
+            if (!await _turniRepository.CheckAgenteIdExistance(turnoForUpdate.AgenteId))
             {
                 return NotFound($"Cannot found AgenteId {turnoForUpdate.AgenteId} on the database.");
             }
 
-            if (!(await _turniRepository.CheckEventoIdExistance(turnoForUpdate.EventoId)))
+            if (!await _turniRepository.CheckEventoIdExistance(turnoForUpdate.EventoId))
             {
                 return NotFound($"Cannot found EventoId {turnoForUpdate.EventoId} on the database.");
+            }
+
+            if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForUpdate.EventoId, turnoForUpdate.Data))
+            {
+                return BadRequest($"Evento {turnoForUpdate.EventoId} is not compatible with date {turnoForUpdate.Data}");
             }
 
             if (await _turniRepository.CheckDuplicatedTurno(turnoForUpdate.AgenteId, turnoForUpdate.EventoId, turnoForUpdate.Data))

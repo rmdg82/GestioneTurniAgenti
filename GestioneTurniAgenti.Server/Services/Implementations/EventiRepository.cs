@@ -13,56 +13,36 @@ namespace GestioneTurniAgenti.Server.Services.Implementations
 {
     public class EventiRepository : BaseRepository<Evento>, IEventiRepository
     {
+        private readonly GestioneTurniDbContext _context;
+
         public EventiRepository(GestioneTurniDbContext dbContext)
             : base(dbContext)
         {
+            _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        //private readonly GestioneTurniDbContext _context;
+        public async Task<bool> CheckDuplicatedEvento(DateTime inizio, DateTime fine, string nome)
+        {
+            var evento = await _context.Eventi
+                .FirstOrDefaultAsync(
+                    e => e.Nome.Equals(nome) &&
+                    e.Inizio.Date.Equals(inizio.Date) &&
+                    e.Fine.Date.Equals(fine.Date));
 
-        //public EventiRepository(GestioneTurniDbContext DbContext)
-        //{
-        //    _context = DbContext ?? throw new ArgumentNullException(nameof(DbContext));
-        //}
+            return evento != null;
+        }
 
-        //public void AddEvento(Evento evento)
-        //{
-        //    _context.Set<Evento>().Add(evento);
-        //}
+        public async Task<bool> CheckTurniLinkedToEvento(Guid eventoId)
+        {
+            var evento = await _context.Eventi.FindAsync(eventoId);
+            if (evento == null)
+            {
+                return false;
+            }
 
-        //public async Task<bool> Commit()
-        //{
-        //    return await _context.SaveChangesAsync() > 0;
-        //}
+            var turni = await _context.Turni.Where(t => t.EventoId.Equals(eventoId)).ToListAsync();
 
-        //public void DeleteEvento(Evento evento)
-        //{
-        //    _context.Set<Evento>().Remove(evento);
-        //}
-
-        //public async Task<IEnumerable<Evento>> GetEventi(params Expression<Func<Evento, bool>>[] filters)
-        //{
-        //    IQueryable<Evento> query = _context.Set<Evento>();
-
-        //    if (filters != null)
-        //    {
-        //        foreach (var filter in filters)
-        //        {
-        //            query = query.Where(filter);
-        //        }
-        //    }
-
-        //    return await query.AsNoTracking().ToListAsync();
-        //}
-
-        //public async Task<Evento> GetEventoById(Guid eventoId)
-        //{
-        //    return await _context.Set<Evento>().FindAsync(eventoId);
-        //}
-
-        //public void UpdateEvento(Evento evento)
-        //{
-        //    _context.Set<Evento>().Update(evento);
-        //}
+            return turni.Any();
+        }
     }
 }
