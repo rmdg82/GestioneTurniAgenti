@@ -1,6 +1,6 @@
 using GestioneTurniAgenti.Server.Contexts;
-using GestioneTurniAgenti.Server.Services.Contracts;
-using GestioneTurniAgenti.Server.Services.Implementations;
+using GestioneTurniAgenti.Server.Repositories.Contracts;
+using GestioneTurniAgenti.Server.Repositories.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +31,14 @@ namespace GestioneTurniAgenti.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(policy =>
+            {
+                policy.AddPolicy("CorsPolicy", opt => opt
+                 .AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
+            });
+
             services.AddAutoMapper(typeof(Startup));
 
             string sqlliteDbFolder = Path.Combine(Directory.GetCurrentDirectory(), Configuration.GetConnectionString("DbFolder"));
@@ -63,6 +71,7 @@ namespace GestioneTurniAgenti.Server
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
