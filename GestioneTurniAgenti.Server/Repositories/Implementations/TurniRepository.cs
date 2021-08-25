@@ -1,6 +1,7 @@
 ﻿using GestioneTurniAgenti.Server.Contexts;
 using GestioneTurniAgenti.Server.Entities;
-using GestioneTurniAgenti.Server.Services.Contracts;
+using GestioneTurniAgenti.Server.Repositories;
+using GestioneTurniAgenti.Server.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestioneTurniAgenti.Server.Services.Implementations
+namespace GestioneTurniAgenti.Server.Repositories.Implementations
 {
     public class TurniRepository : BaseRepository<Turno>, ITurniRepository
     {

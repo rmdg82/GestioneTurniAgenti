@@ -1,4 +1,5 @@
 ﻿using GestioneTurniAgenti.Server.Entities;
+using GestioneTurniAgenti.Server.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestioneTurniAgenti.Server.Services.Contracts
+namespace GestioneTurniAgenti.Server.Repositories.Contracts
 {
     public interface ITurniRepository : IBaseRepository<Turno>
     {

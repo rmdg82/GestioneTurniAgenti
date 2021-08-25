@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestioneTurniAgenti.Server.Services
+namespace GestioneTurniAgenti.Server.Repositories
 {
     public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     {

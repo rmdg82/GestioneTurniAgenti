@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using GestioneTurniAgenti.Server.Services.Contracts;
+using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
