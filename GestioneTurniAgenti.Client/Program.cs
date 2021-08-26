@@ -25,6 +25,8 @@ namespace GestioneTurniAgenti.Client
                 });
 
             builder.Services.AddScoped<IAnagraficaService, AnagraficaService>();
+            builder.Services.AddScoped<IEventiService, EventiService>();
+            builder.Services.AddScoped<ITurniService, TurniService>();
 
             await builder.Build().RunAsync();
         }
