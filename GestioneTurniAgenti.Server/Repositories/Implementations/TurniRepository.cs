@@ -2,6 +2,7 @@
 using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -62,19 +63,46 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
             return evento != null;
         }
 
-        public async Task<IEnumerable<Turno>> GetByFilterWithNavigationProps(params Expression<Func<Turno, bool>>[] filters)
+        public async Task<IEnumerable<Turno>> GetTurniByParams(TurniSearchParameters parameters, bool trackChanges = false)
         {
-            IQueryable<Turno> query = _context.Set<Turno>();
+            IQueryable<Turno> query = _context.Set<Turno>().Include(t => t.Agente).Include(t => t.Evento);
 
-            if (filters != null)
+            if (parameters is null)
             {
-                foreach (var filter in filters)
+                if (trackChanges)
                 {
-                    query = query.Where(filter);
+                    return await query.ToListAsync();
                 }
+
+                return await query.AsNoTracking().ToListAsync();
             }
 
-            return await query.Include(t => t.Agente).Include(t => t.Evento).AsNoTracking().ToListAsync();
+            if (!string.IsNullOrWhiteSpace(parameters.AgenteNome))
+            {
+                query = query.Where(a => a.Agente.Nome.ToUpper().Contains(parameters.AgenteNome.Trim().ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.AgenteCognome))
+            {
+                query = query.Where(a => a.Agente.Cognome.ToUpper().Contains(parameters.AgenteCognome.Trim().ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.AgenteMatricola))
+            {
+                query = query.Where(a => a.Agente.Matricola.ToUpper().Contains(parameters.AgenteMatricola.Trim().ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.EventoNome))
+            {
+                query = query.Where(a => a.Evento.Nome.ToUpper().Contains(parameters.EventoNome.Trim().ToUpper()));
+            }
+
+            if (trackChanges)
+            {
+                return await query.ToListAsync();
+            }
+
+            return await query.AsNoTracking().ToListAsync();
         }
     }
 }

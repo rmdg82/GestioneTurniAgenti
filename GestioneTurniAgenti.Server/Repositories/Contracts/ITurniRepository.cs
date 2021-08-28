@@ -1,5 +1,6 @@
 ﻿using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace GestioneTurniAgenti.Server.Repositories.Contracts
 {
     public interface ITurniRepository : IBaseRepository<Turno>
     {
-        Task<IEnumerable<Turno>> GetByFilterWithNavigationProps(params Expression<Func<Turno, bool>>[] filters);
+        Task<IEnumerable<Turno>> GetTurniByParams(TurniSearchParameters parameters, bool trackChanges = false);
 
         Task<bool> CheckAgenteIdExistance(Guid agenteId);
 

@@ -2,6 +2,7 @@
 using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,33 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
             var turni = await _context.Turni.Where(t => t.EventoId.Equals(eventoId)).ToListAsync();
 
             return turni.Any();
+        }
+
+        public async Task<IEnumerable<Evento>> GetEventiFromParams(EventiSearchParameters parameters, bool trackChanges = false)
+        {
+            IQueryable<Evento> query = _context.Set<Evento>();
+
+            if (parameters is null)
+            {
+                if (trackChanges)
+                {
+                    return await query.ToListAsync();
+                }
+
+                return await query.AsNoTracking().ToListAsync();
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Nome))
+            {
+                query = query.Where(a => a.Nome.ToUpper().Contains(parameters.Nome.Trim().ToUpper()));
+            }
+
+            if (trackChanges)
+            {
+                return await query.ToListAsync();
+            }
+
+            return await query.AsNoTracking().ToListAsync();
         }
     }
 }

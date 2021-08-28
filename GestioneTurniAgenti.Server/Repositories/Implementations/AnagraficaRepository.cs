@@ -1,6 +1,7 @@
 ﻿using GestioneTurniAgenti.Server.Contexts;
 using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,48 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
             return await query.Include(a => a.Reparto).OrderBy(a => a.Cognome).AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<Agente>> GetAgentiFromParams(AgentiSearchParameters parameters, bool trackChanges = false)
+        {
+            IQueryable<Agente> query = _context.Set<Agente>().Include(a => a.Reparto);
+
+            if (parameters is null)
+            {
+                if (trackChanges)
+                {
+                    return await query.ToListAsync();
+                }
+
+                return await query.AsNoTracking().ToListAsync();
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Nome))
+            {
+                query = query.Where(a => a.Nome.ToUpper().Contains(parameters.Nome.Trim().ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Cognome))
+            {
+                query = query.Where(a => a.Cognome.ToUpper().Contains(parameters.Cognome.Trim().ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.Matricola))
+            {
+                query = query.Where(a => a.Matricola.ToUpper().Contains(parameters.Matricola.Trim().ToUpper()));
+            }
+
+            if (parameters.RepartoId != null)
+            {
+                query = query.Where(a => a.RepartoId.Equals(parameters.RepartoId));
+            }
+
+            if (trackChanges)
+            {
+                return await query.ToListAsync();
+            }
+
+            return await query.AsNoTracking().ToListAsync();
+        }
+
         public async Task<IEnumerable<Reparto>> GetReparti(params Expression<Func<Reparto, bool>>[] filters)
         {
             IQueryable<Reparto> query = _context.Set<Reparto>();
@@ -57,7 +100,7 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
                 }
             }
 
-            return await query.OrderBy(a => a.Nome).AsNoTracking().ToListAsync();
+            return await query.AsNoTracking().ToListAsync();
         }
 
         public async Task<Reparto> GetRepartoById(Guid repartoId)

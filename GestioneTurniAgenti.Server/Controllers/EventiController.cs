@@ -2,6 +2,7 @@
 using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Eventi;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,9 +29,9 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventoDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<EventoDto>>> GetAllEventi([FromQuery] EventiSearchParameters parameters)
         {
-            var eventi = await _eventiRepository.GetByFilter();
+            var eventi = await _eventiRepository.GetEventiFromParams(parameters);
             return Ok(_mapper.Map<IEnumerable<EventoDto>>(eventi));
         }
 

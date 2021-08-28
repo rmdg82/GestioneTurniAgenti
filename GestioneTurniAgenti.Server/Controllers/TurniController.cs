@@ -2,6 +2,7 @@
 using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,9 +29,9 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TurnoDto>>> GetAllTurni()
+        public async Task<ActionResult<IEnumerable<TurnoDto>>> GetAllTurni([FromQuery] TurniSearchParameters searchParameters)
         {
-            var turni = await _turniRepository.GetByFilterWithNavigationProps();
+            var turni = await _turniRepository.GetTurniByParams(searchParameters);
 
             return Ok(_mapper.Map<IEnumerable<TurnoDto>>(turni));
         }

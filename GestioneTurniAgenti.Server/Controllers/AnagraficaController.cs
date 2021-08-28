@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,9 +28,9 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpGet("agenti")]
-        public async Task<ActionResult<IEnumerable<AgenteDto>>> GetAllAgenti()
+        public async Task<ActionResult<IEnumerable<AgenteDto>>> GetAllAgenti([FromQuery] AgentiSearchParameters searchParameters)
         {
-            var agenti = await _anagraficaRepository.GetAgenti();
+            var agenti = await _anagraficaRepository.GetAgentiFromParams(searchParameters);
 
             return Ok(_mapper.Map<IEnumerable<AgenteDto>>(agenti));
         }
