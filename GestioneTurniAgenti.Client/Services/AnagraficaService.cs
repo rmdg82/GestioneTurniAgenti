@@ -1,4 +1,5 @@
 ﻿using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,31 @@ namespace GestioneTurniAgenti.Client.Services
             return agente;
         }
 
-        public async Task<IEnumerable<AgenteDto>> GetAllAgenti()
+        public async Task<IEnumerable<AgenteDto>> GetAllAgenti(AgentiSearchParameters searchParameters)
         {
-            var agenti = await _client.GetFromJsonAsync<IEnumerable<AgenteDto>>("anagrafica/agenti");
+            string queryString = "?";
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.Nome))
+            {
+                queryString += $"Nome={searchParameters.Nome}&";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.Cognome))
+            {
+                queryString += $"Cognome={searchParameters.Cognome}&";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.Matricola))
+            {
+                queryString += $"Matricola={searchParameters.Matricola}&";
+            }
+
+            if (searchParameters.RepartoId.HasValue)
+            {
+                queryString += $"RepartoId={searchParameters.RepartoId}";
+            }
+
+            var agenti = await _client.GetFromJsonAsync<IEnumerable<AgenteDto>>($"anagrafica/agenti{queryString}");
 
             return agenti;
         }
