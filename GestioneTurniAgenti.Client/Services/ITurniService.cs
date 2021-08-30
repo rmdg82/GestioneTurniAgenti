@@ -16,7 +16,7 @@ namespace GestioneTurniAgenti.Client.Services
 
         Task<string> CreateTurno(TurnoForCreationDto turnoDto);
 
-        Task UpdateTurno(Guid turnoId, TurnoForUpdateDto turnoDto);
+        Task<string> UpdateTurno(Guid turnoId, TurnoForUpdateDto turnoDto);
 
         Task DeleteTurno(Guid turnoId);
     }

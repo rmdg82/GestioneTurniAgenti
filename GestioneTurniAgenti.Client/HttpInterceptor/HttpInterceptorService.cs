@@ -47,19 +47,19 @@ namespace GestioneTurniAgenti.Client.HttpInterceptor
                         break;
 
                     case HttpStatusCode.BadRequest:
-                        message = "Richiesta invalida. Per verifica i dati inseriti.";
+                        message = "Richiesta invalida. Per favore verifica i dati inseriti.";
                         //message = e.Response.Content.ReadAsStringAsync().Result;
                         _toastService.ShowError(message);
                         break;
 
                     case HttpStatusCode.Unauthorized:
                         _navManager.NavigateTo("/unauthorized");
-                        message = "Accesso non autorizzato";
+                        message = "Accesso non autorizzato.";
                         break;
 
                     default:
                         _navManager.NavigateTo("/error");
-                        message = $"Qualcosa è andato storto. Errore {e.Response.ReasonPhrase}.";
+                        message = $"Qualcosa è andato storto. Errore {e.Response.StatusCode}.";
                         break;
                 }
 
