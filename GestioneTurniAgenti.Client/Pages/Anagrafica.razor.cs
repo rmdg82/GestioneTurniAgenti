@@ -15,10 +15,10 @@ namespace GestioneTurniAgenti.Client.Pages
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
 
+        public List<RepartoDto> Reparti { get; set; } = new();
+
         public AgentiSearchParameters AgentiSearchParameters { get; set; } = new();
         public IEnumerable<AgenteDto> Agenti { get; set; } = null;
-
-        public List<RepartoDto> Reparti { get; set; } = new();
 
         protected override async Task OnInitializedAsync()
         {

@@ -1,4 +1,5 @@
 ﻿using GestioneTurniAgenti.Shared.Dtos.Turno;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace GestioneTurniAgenti.Client.Services
 {
     public interface ITurniService
     {
-        Task<IEnumerable<TurnoDto>> GetAllTurni();
+        Task<IEnumerable<TurnoDto>> GetAllTurni(TurniSearchParameters searchParameters);
 
         Task<TurnoDto> GetTurnoById(Guid turnoId);
 

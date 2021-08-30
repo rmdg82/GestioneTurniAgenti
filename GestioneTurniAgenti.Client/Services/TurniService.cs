@@ -1,4 +1,5 @@
 ﻿using GestioneTurniAgenti.Shared.Dtos.Turno;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,36 @@ namespace GestioneTurniAgenti.Client.Services
             await _client.DeleteAsync($"turni/{turnoId}");
         }
 
-        public async Task<IEnumerable<TurnoDto>> GetAllTurni()
+        public async Task<IEnumerable<TurnoDto>> GetAllTurni(TurniSearchParameters searchParameters)
         {
-            var turni = await _client.GetFromJsonAsync<IEnumerable<TurnoDto>>("turni");
+            string queryString = "?";
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.AgenteNome))
+            {
+                queryString += $"AgenteNome={searchParameters.AgenteNome}&";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.AgenteCognome))
+            {
+                queryString += $"AgenteCognome={searchParameters.AgenteCognome}&";
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchParameters.AgenteMatricola))
+            {
+                queryString += $"AgenteMatricola={searchParameters.AgenteMatricola}&";
+            }
+
+            if (searchParameters.RepartoId.HasValue)
+            {
+                queryString += $"RepartoId={searchParameters.RepartoId}";
+            }
+
+            if (searchParameters.EventoId.HasValue)
+            {
+                queryString += $"EventoId={searchParameters.EventoId}";
+            }
+
+            var turni = await _client.GetFromJsonAsync<IEnumerable<TurnoDto>>($"turni/{queryString}");
 
             return turni;
         }

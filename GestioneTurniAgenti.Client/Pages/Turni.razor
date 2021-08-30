@@ -1,1 +1,73 @@
-﻿
+﻿@page "/turni"
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Ricerca turni</h5>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" placeholder="Nome Agente" @bind-value="TurniSearchParameters.AgenteNome" />
+            </div>
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" placeholder="Cognome Agente" @bind-value="TurniSearchParameters.AgenteCognome" />
+            </div>
+
+            <div class="form-group col-md-4">
+                <input type="text" class="form-control" placeholder="Matricola Agente" @bind-value="TurniSearchParameters.AgenteMatricola" />
+            </div>
+            <div class="form-group col-md-6">
+                <select class="form-control" @bind="TurniSearchParameters.RepartoId">
+                    <option selected>Scegli reparto...</option>
+                    <option value="">Tutti i reparti</option>
+                    @foreach (var reparto in Reparti)
+                    {
+                        <option value="@reparto.Id">@reparto.Nome</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group col-md-6">
+                <select class="form-control" @bind="TurniSearchParameters.EventoId">
+                    <option selected>Scegli il nome evento ...</option>
+                    <option value="">Tutti gli eventi</option>
+                    @foreach (var evento in Eventi)
+                    {
+                        <option value="@evento.Id">@evento.Nome</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" @onclick="GetTurni">Cerca</button>
+        </div>
+    </div>
+</div>
+
+@if (TurniReturned != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Cognome</th>
+                <th scope="col">Matricola</th>
+                <th scope="col">Reparto</th>
+                <th scope="col">Evento</th>
+                <th scope="col">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var turno in TurniReturned)
+            {
+                <tr>
+                    <td>@turno.AgenteNome</td>
+                    <td>@turno.AgenteCognome</td>
+                    <td>@turno.AgenteMatricola</td>
+                    <td>@turno.AgenteRepartoNome</td>
+                    <td>@turno.EventoNome</td>
+                    <td><a href="#">Azione da definire</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="display-5">Nessun elemento da visualizzare...</h1>
+}

@@ -65,7 +65,7 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
 
         public async Task<IEnumerable<Turno>> GetTurniByParams(TurniSearchParameters parameters, bool trackChanges = false)
         {
-            IQueryable<Turno> query = _context.Set<Turno>().Include(t => t.Agente).Include(t => t.Evento);
+            IQueryable<Turno> query = _context.Set<Turno>().Include(t => t.Agente).ThenInclude(a => a.Reparto).Include(t => t.Evento);
 
             if (parameters is null)
             {
@@ -92,9 +92,14 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
                 query = query.Where(a => a.Agente.Matricola.ToUpper().Contains(parameters.AgenteMatricola.Trim().ToUpper()));
             }
 
-            if (!string.IsNullOrWhiteSpace(parameters.EventoNome))
+            if (parameters.EventoId != null)
             {
-                query = query.Where(a => a.Evento.Nome.ToUpper().Contains(parameters.EventoNome.Trim().ToUpper()));
+                query = query.Where(a => a.EventoId.Equals(parameters.EventoId));
+            }
+
+            if (parameters.RepartoId != null)
+            {
+                query = query.Where(a => a.Agente.RepartoId.Equals(parameters.RepartoId));
             }
 
             if (trackChanges)

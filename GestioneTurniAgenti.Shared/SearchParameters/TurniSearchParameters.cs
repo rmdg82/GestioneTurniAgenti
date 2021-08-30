@@ -11,6 +11,7 @@ namespace GestioneTurniAgenti.Shared.SearchParameters
         public string AgenteMatricola { get; set; }
         public string AgenteNome { get; set; }
         public string AgenteCognome { get; set; }
-        public string EventoNome { get; set; }
+        public Guid? RepartoId { get; set; }
+        public Guid? EventoId { get; set; }
     }
 }

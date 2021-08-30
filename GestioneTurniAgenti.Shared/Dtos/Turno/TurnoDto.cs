@@ -14,7 +14,7 @@ namespace GestioneTurniAgenti.Shared.Dtos.Turno
         public string AgenteNome { get; set; }
         public string AgenteCognome { get; set; }
         public Guid AgenteRepartoId { get; set; }
-
+        public string AgenteRepartoNome { get; set; }
         public Guid EventoId { get; set; }
         public string EventoNome { get; set; }
         public DateTime Data { get; set; }
