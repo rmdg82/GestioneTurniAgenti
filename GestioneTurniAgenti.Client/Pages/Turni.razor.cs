@@ -1,4 +1,5 @@
-﻿using GestioneTurniAgenti.Client.Services;
+﻿using GestioneTurniAgenti.Client.HttpInterceptor;
+using GestioneTurniAgenti.Client.Services;
 using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
 using GestioneTurniAgenti.Shared.Dtos.Eventi;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
-    public partial class Turni
+    public partial class Turni : IDisposable
     {
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
@@ -23,6 +24,9 @@ namespace GestioneTurniAgenti.Client.Pages
         [Inject]
         public ITurniService TurniService { get; set; }
 
+        [Inject]
+        public HttpInterceptorService Interceptor { get; set; }
+
         public List<RepartoDto> Reparti { get; set; } = new();
         public List<EventoDto> Eventi { get; set; } = new();
 
@@ -31,6 +35,7 @@ namespace GestioneTurniAgenti.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            Interceptor.RegisterEvent();
             await GetAllReparti();
             await GetAllEventi();
         }
@@ -49,6 +54,11 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             TurniReturned = await TurniService.GetAllTurni(TurniSearchParameters);
             StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            Interceptor.DisposeEvent();
         }
     }
 }

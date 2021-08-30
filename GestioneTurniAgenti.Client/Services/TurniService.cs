@@ -19,9 +19,17 @@ namespace GestioneTurniAgenti.Client.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task CreateTurno(TurnoForCreationDto turnoDto)
+        public async Task<string> CreateTurno(TurnoForCreationDto turnoDto)
         {
-            await _client.PostAsJsonAsync("turni", turnoDto);
+            var res = await _client.PostAsJsonAsync("turni", turnoDto);
+            if (res.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            else
+            {
+                return await res.Content.ReadAsStringAsync();
+            }
         }
 
         public async Task DeleteTurno(Guid turnoId)

@@ -1,0 +1,63 @@
+﻿@page "/aggiungiTurno/{agenteId:guid}"
+
+<h2>Aggiungi nuovo turno</h2>
+
+<EditForm EditContext="_editContext" OnValidSubmit="Create" class="card card-body bg-light mt-5">
+    <DataAnnotationsValidator />
+
+    <div class="form-group row">
+        <label for="nome" class="col-md-2 col-form-label">Nome agente:</label>
+        <div class="col-md-10">
+            <input readonly class="form-control-plaintext" type="text" id="nome" value="@NomeAgente">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="cognome" class="col-md-2 col-form-label">Cognome agente:</label>
+        <div class="col-md-10">
+            <input readonly class="form-control-plaintext" type="text" id="cognome" value="@CognomeAgente">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="matricola" class="col-md-2 col-form-label">Matricola agente:</label>
+        <div class="col-md-10">
+            <input readonly class="form-control-plaintext" type="text" id="matricola" value="@MatricolaAgente">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="reparto" class="col-md-2 col-form-label">Nome Reparto agente:</label>
+        <div class="col-md-10">
+            <input readonly class="form-control-plaintext" type="text" id="reparto" value="@RepartoAgente">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="evento" class="col-md-2 col-form-label">Evento:</label>
+        <select class="form-control" @bind="_turno.EventoId">
+            <option selected>Scegli il nome evento ...</option>
+            @foreach (var evento in Eventi)
+            {
+                <option value="@evento.Id">@evento.Nome</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group row">
+        <label for="data" class="col-md-2 col-form-label">Data turno:</label>
+        <InputDate id="data" @bind-Value="_turno.Data"></InputDate>
+        <ValidationMessage For="@(() => _turno.Data)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="note" class="col-md-2 col-form-label">Note:</label>
+        <InputTextArea class="form-control" id="note" @bind-Value="_turno.Note"></InputTextArea>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success"
+                    disabled="@_formInvalid">
+                Aggiungi
+            </button>
+        </div>
+    </div>
+</EditForm>

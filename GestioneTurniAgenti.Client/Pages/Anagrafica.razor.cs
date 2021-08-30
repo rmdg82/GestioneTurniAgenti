@@ -1,4 +1,5 @@
-﻿using GestioneTurniAgenti.Client.Services;
+﻿using GestioneTurniAgenti.Client.HttpInterceptor;
+using GestioneTurniAgenti.Client.Services;
 using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
 using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.AspNetCore.Components;
@@ -10,10 +11,13 @@ using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
-    public partial class Anagrafica
+    public partial class Anagrafica : IDisposable
     {
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
+
+        [Inject]
+        public HttpInterceptorService Interceptor { get; set; }
 
         public List<RepartoDto> Reparti { get; set; } = new();
 
@@ -22,6 +26,7 @@ namespace GestioneTurniAgenti.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            Interceptor.RegisterEvent();
             await GetAllReparti();
         }
 
@@ -34,6 +39,16 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             Agenti = await AnagraficaService.GetAllAgenti(AgentiSearchParameters);
             StateHasChanged();
+        }
+
+        private string GetAggiungiTurnoUrl(Guid agenteId)
+        {
+            return $"/aggiungiTurno/{agenteId}";
+        }
+
+        public void Dispose()
+        {
+            Interceptor.DisposeEvent();
         }
     }
 }
