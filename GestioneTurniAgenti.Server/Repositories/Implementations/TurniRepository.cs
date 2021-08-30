@@ -30,20 +30,21 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
             return agente != null;
         }
 
-        public async Task<bool> CheckCompatibilityEventoWithData(Guid eventoId, DateTime data)
+        public Task<bool> CheckCompatibilityEventoWithData(Guid eventoId, DateTime data, out (DateTime max, DateTime min) values)
         {
-            var evento = await _context.Eventi.FindAsync(eventoId);
+            var evento = _context.Eventi.FindAsync(eventoId).Result;
+            values = (evento.Fine, evento.Inizio);
             if (evento == null)
             {
-                return false;
+                return Task.FromResult(true);
             }
 
             if (data > evento.Inizio || data < evento.Fine)
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            return true;
+            return Task.FromResult(true);
         }
 
         public async Task<bool> CheckDuplicatedTurno(Guid agenteId, Guid eventoId, DateTime data)

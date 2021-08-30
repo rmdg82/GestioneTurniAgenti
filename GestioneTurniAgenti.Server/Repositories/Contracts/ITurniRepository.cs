@@ -20,6 +20,6 @@ namespace GestioneTurniAgenti.Server.Repositories.Contracts
 
         Task<bool> CheckDuplicatedTurno(Guid agenteId, Guid eventoId, DateTime data);
 
-        Task<bool> CheckCompatibilityEventoWithData(Guid eventoId, DateTime data);
+        Task<bool> CheckCompatibilityEventoWithData(Guid eventoId, DateTime data, out (DateTime max, DateTime min) values);
     }
 }

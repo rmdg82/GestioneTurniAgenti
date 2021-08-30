@@ -55,27 +55,27 @@ namespace GestioneTurniAgenti.Server.Controllers
             if (turnoForCreation == null)
             {
                 _logger.LogError("TurnoForCreationDto object sent is null.");
-                return BadRequest("TurnoForCreationDto object is null");
+                return BadRequest("TurnoForCreationDto object è nullo.");
             }
 
             if (!await _turniRepository.CheckAgenteIdExistance(turnoForCreation.AgenteId))
             {
-                return NotFound($"Cannot found AgenteId {turnoForCreation.AgenteId} on the database.");
+                return NotFound($"AgenteId {turnoForCreation.AgenteId} non trovato nel database.");
             }
 
             if (!await _turniRepository.CheckEventoIdExistance(turnoForCreation.EventoId))
             {
-                return NotFound($"Cannot found EventoId {turnoForCreation.EventoId} on the database.");
+                return NotFound($"EventoId {turnoForCreation.EventoId} non trovato nel database.");
             }
 
-            if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForCreation.EventoId, turnoForCreation.Data))
+            if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForCreation.EventoId, turnoForCreation.Data, out (DateTime max, DateTime min) values))
             {
-                return BadRequest($"Evento {turnoForCreation.EventoId} is not compatible with date {turnoForCreation.Data}");
+                return BadRequest($"Evento {turnoForCreation.EventoId} non è compatibile con la data inserita {turnoForCreation.Data:yyyy/MM/dd}. Valori permessi tra {values.min:yyyy/MM/dd} e {values.max:yyyy/MM/dd}.");
             }
 
             if (await _turniRepository.CheckDuplicatedTurno(turnoForCreation.AgenteId, turnoForCreation.EventoId, turnoForCreation.Data))
             {
-                return BadRequest($"Turno with agenteId {turnoForCreation.AgenteId}, eventoId {turnoForCreation.EventoId} and data {turnoForCreation.Data} already exists in the database.");
+                return BadRequest($"Turno con agenteId {turnoForCreation.AgenteId}, eventoId {turnoForCreation.EventoId} and data {turnoForCreation.Data} esiste già nel database.");
             }
 
             var turno = _mapper.Map<Turno>(turnoForCreation);
@@ -106,22 +106,22 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (!await _turniRepository.CheckAgenteIdExistance(turnoForUpdate.AgenteId))
             {
-                return NotFound($"Cannot found AgenteId {turnoForUpdate.AgenteId} on the database.");
+                return NotFound($"AgenteId {turnoForUpdate.AgenteId} non trovato nel database.");
             }
 
             if (!await _turniRepository.CheckEventoIdExistance(turnoForUpdate.EventoId))
             {
-                return NotFound($"Cannot found EventoId {turnoForUpdate.EventoId} on the database.");
+                return NotFound($"EventoId {turnoForUpdate.EventoId} non trovato nel database.");
             }
 
-            if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForUpdate.EventoId, turnoForUpdate.Data))
+            if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForUpdate.EventoId, turnoForUpdate.Data, out (DateTime max, DateTime min) values))
             {
-                return BadRequest($"Evento {turnoForUpdate.EventoId} is not compatible with date {turnoForUpdate.Data}");
+                return BadRequest($"Evento {turnoForUpdate.EventoId} non è compatibile con la data inserita {turnoForUpdate.Data:yyyy/MM/dd}. Valori permessi tra {values.min:yyyy/MM/dd} e {values.max:yyyy/MM/dd}.");
             }
 
             if (await _turniRepository.CheckDuplicatedTurno(turnoForUpdate.AgenteId, turnoForUpdate.EventoId, turnoForUpdate.Data))
             {
-                return BadRequest($"Turno with agenteId {turnoForUpdate.AgenteId}, eventoId {turnoForUpdate.EventoId} and data {turnoForUpdate.Data} already exists.");
+                return BadRequest($"Turno con agenteId {turnoForUpdate.AgenteId}, eventoId {turnoForUpdate.EventoId} and data {turnoForUpdate.Data} esiste già nel database.");
             }
 
             _mapper.Map(turnoForUpdate, turno);
