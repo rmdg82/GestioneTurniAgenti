@@ -36,10 +36,10 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
             values = (evento.Fine, evento.Inizio);
             if (evento == null)
             {
-                return Task.FromResult(true);
+                return Task.FromResult(false);
             }
 
-            if (data > evento.Inizio || data < evento.Fine)
+            if (data > evento.Fine || data < evento.Inizio)
             {
                 return Task.FromResult(false);
             }

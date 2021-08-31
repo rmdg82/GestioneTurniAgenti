@@ -70,7 +70,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForCreation.EventoId, turnoForCreation.Data, out (DateTime max, DateTime min) values))
             {
-                return BadRequest($"Evento {turnoForCreation.EventoId} non è compatibile con la data inserita {turnoForCreation.Data:yyyy/MM/dd}. Valori permessi tra {values.min:yyyy/MM/dd} e {values.max:yyyy/MM/dd}.");
+                return BadRequest($"Evento {turnoForCreation.EventoId} non è compatibile con la data inserita {turnoForCreation.Data:dd/MM/yyyy}. Valori permessi tra {values.min:dd/MM/yyyy} e {values.max:dd/MM/yyyy}.");
             }
 
             if (await _turniRepository.CheckDuplicatedTurno(turnoForCreation.AgenteId, turnoForCreation.EventoId, turnoForCreation.Data))
@@ -116,7 +116,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForUpdate.EventoId, turnoForUpdate.Data, out (DateTime max, DateTime min) values))
             {
-                return BadRequest($"Evento {turnoForUpdate.EventoId} non è compatibile con la data inserita {turnoForUpdate.Data:yyyy/MM/dd}. Valori permessi tra {values.min:yyyy/MM/dd} e {values.max:yyyy/MM/dd}.");
+                return BadRequest($"Evento {turnoForUpdate.EventoId} non è compatibile con la data inserita {turnoForUpdate.Data:dd/MM/yyyy}. Valori permessi tra {values.min:dd/MM/yyyy} e {values.max:dd/MM/yyyy}.");
             }
 
             if (await _turniRepository.CheckDuplicatedTurno(turnoForUpdate.AgenteId, turnoForUpdate.EventoId, turnoForUpdate.Data))
