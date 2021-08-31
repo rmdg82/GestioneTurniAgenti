@@ -110,5 +110,17 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
 
             return await query.AsNoTracking().ToListAsync();
         }
+
+        public async Task<Turno> GetTurnoById(Guid turnoId, bool trackChanges = false)
+        {
+            IQueryable<Turno> query = _context.Set<Turno>().Include(t => t.Agente).ThenInclude(a => a.Reparto).Include(t => t.Evento);
+
+            if (trackChanges)
+            {
+                return await query.FirstOrDefaultAsync(t => t.Id.Equals(turnoId));
+            }
+
+            return await query.AsNoTracking().FirstOrDefaultAsync(t => t.Id.Equals(turnoId));
+        }
     }
 }

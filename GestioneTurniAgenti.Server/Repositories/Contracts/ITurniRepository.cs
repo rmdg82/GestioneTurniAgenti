@@ -14,6 +14,8 @@ namespace GestioneTurniAgenti.Server.Repositories.Contracts
     {
         Task<IEnumerable<Turno>> GetTurniByParams(TurniSearchParameters parameters, bool trackChanges = false);
 
+        Task<Turno> GetTurnoById(Guid turnoId, bool trackChanges = false);
+
         Task<bool> CheckAgenteIdExistance(Guid agenteId);
 
         Task<bool> CheckEventoIdExistance(Guid eventoId);

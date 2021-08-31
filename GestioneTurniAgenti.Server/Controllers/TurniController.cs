@@ -39,7 +39,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         [HttpGet("{turnoId}", Name = "TurnoById")]
         public async Task<ActionResult<TurnoDto>> GetTurnoById(Guid turnoId)
         {
-            var turno = await _turniRepository.GetById(turnoId);
+            var turno = await _turniRepository.GetTurnoById(turnoId, trackChanges: true);
 
             if (turno == null)
             {
@@ -98,7 +98,7 @@ namespace GestioneTurniAgenti.Server.Controllers
                 return BadRequest("TurnoForUpdateDto object is null");
             }
 
-            var turno = await _turniRepository.GetById(turnoId);
+            var turno = await _turniRepository.GetTurnoById(turnoId, trackChanges: true); ;
             if (turno == null)
             {
                 return NotFound();
@@ -119,10 +119,10 @@ namespace GestioneTurniAgenti.Server.Controllers
                 return BadRequest($"Evento {turnoForUpdate.EventoId} non è compatibile con la data inserita {turnoForUpdate.Data:dd/MM/yyyy}. Valori permessi tra {values.min:dd/MM/yyyy} e {values.max:dd/MM/yyyy}.");
             }
 
-            if (await _turniRepository.CheckDuplicatedTurno(turnoForUpdate.AgenteId, turnoForUpdate.EventoId, turnoForUpdate.Data))
-            {
-                return BadRequest($"Turno con agenteId {turnoForUpdate.AgenteId}, eventoId {turnoForUpdate.EventoId} and data {turnoForUpdate.Data} esiste già nel database.");
-            }
+            //if (await _turniRepository.CheckDuplicatedTurno(turnoForUpdate.AgenteId, turnoForUpdate.EventoId, turnoForUpdate.Data))
+            //{
+            //    return BadRequest($"Turno con agenteId {turnoForUpdate.AgenteId}, eventoId {turnoForUpdate.EventoId} and data {turnoForUpdate.Data} esiste già nel database.");
+            //}
 
             _mapper.Map(turnoForUpdate, turno);
             await _turniRepository.Commit();
