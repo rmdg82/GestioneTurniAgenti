@@ -1,8 +1,8 @@
-﻿@page "/aggiungiTurno/{agenteId:guid}"
+﻿@page "/modificaTurno/{turnoId:guid}"
 
-<h2>Aggiungi nuovo turno</h2>
+<h2>Modifica turno</h2>
 
-<EditForm EditContext="_editContext" OnValidSubmit="Create" class="card card-body bg-light mt-5">
+<EditForm EditContext="_editContext" OnValidSubmit="Update" class="card card-body bg-light mt-5">
     <DataAnnotationsValidator />
 
     <div class="form-group row">
@@ -32,8 +32,8 @@
 
     <div class="form-group row">
         <label for="evento" class="col-md-2 col-form-label">Evento:</label>
-        <select class="form-control" @bind="_turnoForCreationDto.EventoId">
-            <option selected>Scegli il nome evento ...</option>
+        <select class="form-control" @bind="_turnoForUpdateDto.EventoId">
+            @*<option selected>Scegli il nome evento ...</option>*@
             @foreach (var evento in Eventi)
             {
                 <option value="@evento.Id">@evento.Nome</option>
@@ -43,21 +43,20 @@
 
     <div class="form-group row">
         <label for="data" class="col-md-2 col-form-label">Data turno:</label>
-        <InputDate id="data" @bind-Value="_turnoForCreationDto.Data"></InputDate>
-        <ValidationMessage For="@(() => _turnoForCreationDto.Data)" />
+        <InputDate id="data" @bind-Value="_turnoForUpdateDto.Data"></InputDate>
+        <ValidationMessage For="@(() => _turnoForUpdateDto.Data)" />
     </div>
 
     <div class="form-group row">
         <label for="note" class="col-md-2 col-form-label">Note:</label>
-        <InputTextArea class="form-control" id="note" @bind-Value="_turnoForCreationDto.Note"></InputTextArea>
+        <InputTextArea class="form-control" id="note" @bind-Value="_turnoForUpdateDto.Note"></InputTextArea>
     </div>
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a href="/turni" class="btn btn-outline-primary">Indietro</a>
-            <button type="submit" class="btn btn-success"
-                    disabled="@_formInvalid">
-                Aggiungi
+            <a class="btn btn-outline-primary" href="/turni">Indietro</a>
+            <button type="submit" class="btn btn-success">
+                Salva
             </button>
         </div>
     </div>

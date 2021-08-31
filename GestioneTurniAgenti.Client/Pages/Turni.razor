@@ -49,6 +49,7 @@
                 <th scope="col">Matricola</th>
                 <th scope="col">Reparto</th>
                 <th scope="col">Evento</th>
+                <th>Data</th>
                 <th scope="col">Azioni</th>
             </tr>
         </thead>
@@ -61,13 +62,10 @@
                     <td>@turno.AgenteMatricola</td>
                     <td>@turno.AgenteRepartoNome</td>
                     <td>@turno.EventoNome</td>
-                    <td><a href="#">Azione da definire</a></td>
+                    <td>@turno.Data.ToString("dd/MM/yyyy")</td>
+                    <td><a class="btn btn-warning" href="modificaTurno/@turno.Id">Modifica</a> | <button class="btn btn-danger" @onclick="() => ApriModale(turno.Id)">Elimina</button></td>
                 </tr>
             }
         </tbody>
     </table>
-}
-else
-{
-    <h1 class="display-5">Nessun elemento da visualizzare...</h1>
 }

@@ -1,7 +1,6 @@
 ﻿using Blazored.Toast.Services;
 using GestioneTurniAgenti.Client.HttpInterceptor;
 using GestioneTurniAgenti.Client.Services;
-using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
 using GestioneTurniAgenti.Shared.Dtos.Eventi;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
-    public partial class CreateTurno : IDisposable
+    public partial class UpdateTurno : IDisposable
     {
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
@@ -35,7 +34,7 @@ namespace GestioneTurniAgenti.Client.Pages
         public NavigationManager NavigationManager { get; set; }
 
         [Parameter]
-        public Guid AgenteId { get; set; }
+        public Guid TurnoId { get; set; }
 
         public List<EventoDto> Eventi { get; set; } = new();
 
@@ -44,7 +43,7 @@ namespace GestioneTurniAgenti.Client.Pages
         public string MatricolaAgente { get; set; }
         public string RepartoAgente { get; set; }
 
-        private TurnoForCreationDto _turnoForCreationDto = new();
+        private TurnoForUpdateDto _turnoForUpdateDto = new();
         private EditContext _editContext;
         private bool _formInvalid = true;
 
@@ -53,25 +52,27 @@ namespace GestioneTurniAgenti.Client.Pages
             Eventi = (await EventiService.GetAllEventi()).ToList();
         }
 
-        public async Task FetchDataFromAgenteId(Guid agenteId)
+        public async Task FetchDataFromTurnoId(Guid turnoId)
         {
-            AgenteDto agente = await AnagraficaService.GetAgenteById(agenteId);
-            _turnoForCreationDto.AgenteId = agenteId;
-            _turnoForCreationDto.Data = DateTime.Now;
-            NomeAgente = agente.Nome;
-            CognomeAgente = agente.Cognome;
-            MatricolaAgente = agente.Matricola;
-            RepartoAgente = agente.NomeReparto;
+            TurnoDto turno = await TurniService.GetTurnoById(turnoId);
+            _turnoForUpdateDto.AgenteId = turno.AgenteId;
+            _turnoForUpdateDto.EventoId = turno.EventoId;
+            _turnoForUpdateDto.Data = turno.Data;
+            _turnoForUpdateDto.Note = turno.Note;
+            NomeAgente = turno.AgenteNome;
+            CognomeAgente = turno.AgenteCognome;
+            MatricolaAgente = turno.AgenteMatricola;
+            RepartoAgente = turno.AgenteRepartoNome;
         }
 
         protected override async Task OnInitializedAsync()
         {
-            _editContext = new EditContext(_turnoForCreationDto);
+            _editContext = new EditContext(_turnoForUpdateDto);
             _editContext.OnFieldChanged += HandleFieldChanged;
             Interceptor.RegisterEvent();
 
-            await FetchDataFromAgenteId(AgenteId);
             await GetEventi();
+            await FetchDataFromTurnoId(TurnoId);
         }
 
         private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -80,24 +81,19 @@ namespace GestioneTurniAgenti.Client.Pages
             StateHasChanged();
         }
 
-        private async Task Create()
+        private async Task Update()
         {
-            var errorMessage = await TurniService.CreateTurno(_turnoForCreationDto);
+            var errorMessage = await TurniService.UpdateTurno(TurnoId, _turnoForUpdateDto);
 
             if (errorMessage is null)
             {
-                ToastService.ShowSuccess("Turno aggiunto con successo!");
+                ToastService.ShowSuccess("Turno modificato con successo!");
                 NavigationManager.NavigateTo("/turni");
             }
             else
             {
                 ToastService.ShowWarning(errorMessage);
 
-                _turnoForCreationDto = new()
-                {
-                    AgenteId = AgenteId,
-                    Data = DateTime.Now
-                };
                 _editContext.OnValidationStateChanged += ValidationChanged;
                 _editContext.NotifyValidationStateChanged();
             }
@@ -107,7 +103,7 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             _formInvalid = true;
             _editContext.OnFieldChanged -= HandleFieldChanged;
-            _editContext = new EditContext(_turnoForCreationDto);
+            _editContext = new EditContext(_turnoForUpdateDto);
             _editContext.OnFieldChanged += HandleFieldChanged;
             _editContext.OnValidationStateChanged -= ValidationChanged;
         }

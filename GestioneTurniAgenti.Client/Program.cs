@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
+using Blazored.Modal;
 
 namespace GestioneTurniAgenti.Client
 {
@@ -38,6 +39,7 @@ namespace GestioneTurniAgenti.Client
             builder.Services.AddScoped<ITurniService, TurniService>();
 
             builder.Services.AddBlazoredToast();
+            builder.Services.AddBlazoredModal();
 
             await builder.Build().RunAsync();
         }

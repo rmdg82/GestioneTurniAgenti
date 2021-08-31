@@ -31,7 +31,9 @@ namespace GestioneTurniAgenti.Client.HttpInterceptor
         {
             if (e.Response == null)
             {
-                _navManager.NavigateTo("/error");
+                //_navManager.NavigateTo("/error");
+                //throw new HttpResponseException("Server not available.");
+                _toastService.ShowError("Servizio non raggiungibile. Verifica che sia raggiungibile e riprovare.");
                 throw new HttpResponseException("Server not available.");
             }
 
@@ -44,26 +46,31 @@ namespace GestioneTurniAgenti.Client.HttpInterceptor
                     case HttpStatusCode.NotFound:
                         _navManager.NavigateTo("/404");
                         message = "Risorsa non trovata.";
-                        break;
+                        throw new HttpResponseException(message);
 
                     case HttpStatusCode.BadRequest:
                         message = "Richiesta invalida. Per favore verifica i dati inseriti.";
-                        //message = e.Response.Content.ReadAsStringAsync().Result;
                         _toastService.ShowError(message);
                         break;
 
                     case HttpStatusCode.Unauthorized:
                         _navManager.NavigateTo("/unauthorized");
                         message = "Accesso non autorizzato.";
+                        throw new HttpResponseException(message);
+
+                    case HttpStatusCode.ServiceUnavailable:
+                        _toastService.ShowError("Servizio non raggiungibile.");
+                        break;
+
+                    case HttpStatusCode.InternalServerError:
+                        _toastService.ShowError("Errore interno del server. Riprova in seguito.");
                         break;
 
                     default:
-                        _navManager.NavigateTo("/error");
-                        message = $"Qualcosa è andato storto. Errore {e.Response.StatusCode}.";
+                        message = $".Errore generico {e.Response.StatusCode}.";
+                        _toastService.ShowError(message);
                         break;
                 }
-
-                //throw new HttpResponseException(message);
             }
         }
     }

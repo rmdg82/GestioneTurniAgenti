@@ -21,14 +21,14 @@ namespace GestioneTurniAgenti.Client.Services
 
         public async Task<string> CreateTurno(TurnoForCreationDto turnoDto)
         {
-            var res = await _client.PostAsJsonAsync("turni", turnoDto);
-            if (res.IsSuccessStatusCode)
+            var response = await _client.PostAsJsonAsync("turni", turnoDto);
+            if (response.IsSuccessStatusCode)
             {
                 return null;
             }
             else
             {
-                return await res.Content.ReadAsStringAsync();
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
@@ -58,7 +58,7 @@ namespace GestioneTurniAgenti.Client.Services
 
             if (searchParameters.RepartoId.HasValue)
             {
-                queryString += $"RepartoId={searchParameters.RepartoId}";
+                queryString += $"RepartoId={searchParameters.RepartoId}&";
             }
 
             if (searchParameters.EventoId.HasValue)
