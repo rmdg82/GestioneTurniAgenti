@@ -63,7 +63,32 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
 
             if (!string.IsNullOrWhiteSpace(parameters.Nome))
             {
-                query = query.Where(a => a.Nome.ToUpper().Contains(parameters.Nome.Trim().ToUpper()));
+                query = query.Where(e => e.Nome.ToUpper().Contains(parameters.Nome.Trim().ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(parameters.MatricolaAgente))
+            {
+                var agentiIdFromMatricola = await _context.Agenti
+                    .Where(a => a.Matricola.ToUpper().Contains(parameters.MatricolaAgente.Trim().ToUpper()))
+                    .Select(a => a.Id)
+                    .ToListAsync();
+
+                var turniFromAgenti = new List<Turno>();
+                foreach (Guid agenteId in agentiIdFromMatricola)
+                {
+                    var turni = await _context.Turni.Where(t => t.AgenteId.Equals(agenteId)).ToListAsync();
+                    if (turni != null)
+                    {
+                        foreach (var turno in turni)
+                        {
+                            turniFromAgenti.Add(turno);
+                        }
+                    }
+                }
+
+                var eventiIdFromTurni = turniFromAgenti.Select(t => t.EventoId).ToList();
+
+                query = query.Where(e => eventiIdFromTurni.Contains(e.Id));
             }
 
             if (trackChanges)
