@@ -18,7 +18,7 @@ namespace GestioneTurniAgenti.Shared.Dtos.Turno
         [Required(ErrorMessage = "Valore obbligatorio.")]
         public DateTime Data { get; set; }
 
-        [MaxLength(500, ErrorMessage = "Lunghezza massima di 500 caratteri.")]
+        [MaxLength(500, ErrorMessage = "Lunghezza massima consentita di 500 caratteri.")]
         public string Note { get; set; }
     }
 }

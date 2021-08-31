@@ -9,6 +9,7 @@ namespace GestioneTurniAgenti.Shared.SearchParameters
     public class EventiSearchParameters
     {
         public string Nome { get; set; }
+        public string MatricolaAgente { get; set; }
         //public DateTime? Inizio { get; set; }
         //public DateTime? Fine { get; set; }
     }
