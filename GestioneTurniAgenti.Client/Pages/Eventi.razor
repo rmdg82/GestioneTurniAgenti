@@ -1,2 +1,47 @@
 ﻿@page "/eventi"
-    <h1>eventi</h1>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Ricerca Eventi</h5>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" placeholder="Nome" @bind-value="EventiSearchParameters.Nome" />
+            </div>
+
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" placeholder="Matricola Agente" @bind-value="EventiSearchParameters.MatricolaAgente" />
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetEventi">Cerca</button>
+            <a href="creaEvento" class="btn btn-lg btn-success text-white ml-auto mr-1">Crea nuovo evento</a>
+        </div>
+    </div>
+</div>
+
+@if (EventiReturned != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Inizio</th>
+                <th scope="col">Fine</th>
+                <th scope="col">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var evento in EventiReturned)
+            {
+                <tr>
+                    <td>@evento.Nome</td>
+                    <td>@evento.Inizio.ToString("dd/MM/yyyy")</td>
+                    <td>@evento.Fine.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn btn-warning" href="modificaEvento/@evento.Id">Modifica</a> |
+                        <button class="btn btn-danger" @onclick="() => CallConfirmationModal(evento)">Elimina</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <ConfirmationDeleteEvento OnOKClicked="DeleteEvento" @ref="_confirmation" />
+}

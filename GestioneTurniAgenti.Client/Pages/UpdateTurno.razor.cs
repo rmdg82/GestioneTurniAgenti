@@ -49,7 +49,7 @@ namespace GestioneTurniAgenti.Client.Pages
 
         public async Task GetEventi()
         {
-            Eventi = (await EventiService.GetAllEventi()).ToList();
+            Eventi = (await EventiService.GetAllEventi(null)).ToList();
         }
 
         public async Task FetchDataFromTurnoId(Guid turnoId)

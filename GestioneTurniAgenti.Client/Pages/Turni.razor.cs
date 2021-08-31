@@ -46,6 +46,7 @@ namespace GestioneTurniAgenti.Client.Pages
             Interceptor.RegisterEvent();
             await GetAllReparti();
             await GetAllEventi();
+            StateHasChanged();
         }
 
         public async Task GetAllReparti()
@@ -55,7 +56,7 @@ namespace GestioneTurniAgenti.Client.Pages
 
         public async Task GetAllEventi()
         {
-            Eventi = (await EventiService.GetAllEventi()).ToList();
+            Eventi = (await EventiService.GetAllEventi(null)).ToList();
         }
 
         public async Task GetTurni()

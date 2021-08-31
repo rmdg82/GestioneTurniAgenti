@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
-    public partial class CreateTurno : IDisposable
+    public partial class CreateEvento : IDisposable
     {
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
@@ -34,44 +34,15 @@ namespace GestioneTurniAgenti.Client.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        [Parameter]
-        public Guid AgenteId { get; set; }
-
-        public List<EventoDto> Eventi { get; set; } = new();
-
-        public string NomeAgente { get; set; }
-        public string CognomeAgente { get; set; }
-        public string MatricolaAgente { get; set; }
-        public string RepartoAgente { get; set; }
-
-        private TurnoForCreationDto _turnoForCreationDto = new();
+        private EventoForCreationDto _eventoForCreationDto = new() { Inizio = DateTime.Now, Fine = DateTime.Now };
         private EditContext _editContext;
         private bool _formInvalid = true;
 
-        public async Task GetEventi()
+        protected override void OnInitialized()
         {
-            Eventi = (await EventiService.GetAllEventi(null)).ToList();
-        }
-
-        public async Task FetchDataFromAgenteId(Guid agenteId)
-        {
-            AgenteDto agente = await AnagraficaService.GetAgenteById(agenteId);
-            _turnoForCreationDto.AgenteId = agenteId;
-            _turnoForCreationDto.Data = DateTime.Now;
-            NomeAgente = agente.Nome;
-            CognomeAgente = agente.Cognome;
-            MatricolaAgente = agente.Matricola;
-            RepartoAgente = agente.NomeReparto;
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            _editContext = new EditContext(_turnoForCreationDto);
+            _editContext = new EditContext(_eventoForCreationDto);
             _editContext.OnFieldChanged += HandleFieldChanged;
             Interceptor.RegisterEvent();
-
-            await FetchDataFromAgenteId(AgenteId);
-            await GetEventi();
         }
 
         private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -82,22 +53,17 @@ namespace GestioneTurniAgenti.Client.Pages
 
         private async Task Create()
         {
-            var errorMessage = await TurniService.CreateTurno(_turnoForCreationDto);
+            var errorMessage = await EventiService.CreateEvento(_eventoForCreationDto);
 
             if (errorMessage is null)
             {
-                ToastService.ShowSuccess("Turno aggiunto con successo!");
-                NavigationManager.NavigateTo("/turni");
+                ToastService.ShowSuccess("evento aggiunto con successo!");
+                NavigationManager.NavigateTo("/eventi");
             }
             else
             {
                 ToastService.ShowWarning(errorMessage);
 
-                _turnoForCreationDto = new()
-                {
-                    AgenteId = AgenteId,
-                    Data = DateTime.Now
-                };
                 _editContext.OnValidationStateChanged += ValidationChanged;
                 _editContext.NotifyValidationStateChanged();
             }
@@ -107,7 +73,7 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             _formInvalid = true;
             _editContext.OnFieldChanged -= HandleFieldChanged;
-            _editContext = new EditContext(_turnoForCreationDto);
+            _editContext = new EditContext(_eventoForCreationDto);
             _editContext.OnFieldChanged += HandleFieldChanged;
             _editContext.OnValidationStateChanged -= ValidationChanged;
         }

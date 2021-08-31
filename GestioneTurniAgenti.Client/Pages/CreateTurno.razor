@@ -50,6 +50,7 @@
     <div class="form-group row">
         <label for="note" class="col-md-2 col-form-label">Note:</label>
         <InputTextArea class="form-control" id="note" @bind-Value="_turnoForCreationDto.Note"></InputTextArea>
+        <ValidationMessage For="@(() => _turnoForCreationDto.Note)" />
     </div>
 
     <div class="row">

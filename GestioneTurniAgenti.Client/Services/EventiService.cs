@@ -1,4 +1,5 @@
 ﻿using GestioneTurniAgenti.Shared.Dtos.Eventi;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,6 @@ namespace GestioneTurniAgenti.Client.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task CreateEvento(EventoForCreationDto eventoDto)
-        {
-            await _client.PostAsJsonAsync("eventi", eventoDto);
-        }
-
         public async Task DeleteEvento(Guid eventoId)
         {
             await _client.DeleteAsync($"eventi/{eventoId}");
@@ -35,6 +31,28 @@ namespace GestioneTurniAgenti.Client.Services
             return eventi;
         }
 
+        public async Task<IEnumerable<EventoDto>> GetAllEventi(EventiSearchParameters searchParameters)
+        {
+            string queryString = "?";
+
+            if (searchParameters != null)
+            {
+                if (!string.IsNullOrWhiteSpace(searchParameters.Nome))
+                {
+                    queryString += $"Nome={searchParameters.Nome}&";
+                }
+
+                if (!string.IsNullOrWhiteSpace(searchParameters.MatricolaAgente))
+                {
+                    queryString += $"MatricolaAgente={searchParameters.MatricolaAgente}";
+                }
+            }
+
+            var eventi = await _client.GetFromJsonAsync<IEnumerable<EventoDto>>($"eventi/{queryString}");
+
+            return eventi;
+        }
+
         public async Task<EventoDto> GetEventoById(Guid eventoId)
         {
             var evento = await _client.GetFromJsonAsync<EventoDto>($"eventi/{eventoId}");
@@ -42,9 +60,30 @@ namespace GestioneTurniAgenti.Client.Services
             return evento;
         }
 
-        public async Task UpdateEvento(Guid eventoId, EventoForUpdateDto eventoDto)
+        public async Task<string> CreateEvento(EventoForCreationDto eventoDto)
         {
-            await _client.PutAsJsonAsync($"eventi/{eventoId}", eventoDto);
+            var response = await _client.PostAsJsonAsync("eventi", eventoDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            else
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+        }
+
+        public async Task<string> UpdateEvento(Guid eventoId, EventoForUpdateDto eventoDto)
+        {
+            var response = await _client.PutAsJsonAsync($"eventi/{eventoId}", eventoDto);
+            if (response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            else
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
         }
     }
 }

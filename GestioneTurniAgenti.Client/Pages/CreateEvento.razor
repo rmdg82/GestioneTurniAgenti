@@ -1,0 +1,40 @@
+﻿@page "/creaEvento"
+
+<h2>Crea nuovo evento</h2>
+
+<EditForm EditContext="_editContext" OnValidSubmit="Create" class="card card-body bg-light mt-5">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group row">
+        <label for="nome" class="col-md-2 col-form-label">Nome evento:</label>
+        <div class="col-md-10">
+            <InputText class="form-control" type="text" id="nome" @bind-Value="_eventoForCreationDto.Nome" />
+            <ValidationMessage For="@(() => _eventoForCreationDto.Nome)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="inizio" class="col-md-2 col-form-label">Inizio evento:</label>
+        <div class="col-md-10">
+            <InputDate id="inizio" @bind-Value="_eventoForCreationDto.Inizio" />
+            <ValidationMessage For="@(() => _eventoForCreationDto.Inizio)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="fine" class="col-md-2 col-form-label">Fine evento:</label>
+        <div class="col-md-10">
+            <InputDate id="fine" @bind-Value="_eventoForCreationDto.Fine" />
+            <ValidationMessage For="@(() => _eventoForCreationDto.Fine)" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a href="/eventi" class="btn btn-outline-primary">Indietro</a>
+            <button type="submit" class="btn btn-success"
+                    disabled="@_formInvalid">
+                Crea
+            </button>
+        </div>
+    </div>
+</EditForm>

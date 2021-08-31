@@ -80,14 +80,14 @@ namespace GestioneTurniAgenti.Client.Services
 
         public async Task<string> UpdateTurno(Guid turnoId, TurnoForUpdateDto turnoDto)
         {
-            var res = await _client.PutAsJsonAsync($"turni/{turnoId}", turnoDto);
-            if (res.IsSuccessStatusCode)
+            var response = await _client.PutAsJsonAsync($"turni/{turnoId}", turnoDto);
+            if (response.IsSuccessStatusCode)
             {
                 return null;
             }
             else
             {
-                return await res.Content.ReadAsStringAsync();
+                return await response.Content.ReadAsStringAsync();
             }
         }
     }
