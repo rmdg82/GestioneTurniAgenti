@@ -63,9 +63,13 @@
                     <td>@turno.AgenteRepartoNome</td>
                     <td>@turno.EventoNome</td>
                     <td>@turno.Data.ToString("dd/MM/yyyy")</td>
-                    <td><a class="btn btn-warning" href="modificaTurno/@turno.Id">Modifica</a> | <button class="btn btn-danger">Elimina</button></td>
+                    <td>
+                        <a class="btn btn-warning" href="modificaTurno/@turno.Id">Modifica</a> |
+                        <button class="btn btn-danger" @onclick="() => CallConfirmationModal(turno)">Elimina</button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <ConfirmationDeleteTurno OnOKClicked="DeleteTurno" @ref="_confirmation" />
 }
