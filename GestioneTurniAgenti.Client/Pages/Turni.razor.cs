@@ -1,6 +1,4 @@
-﻿using Blazored.Modal;
-using Blazored.Modal.Services;
-using GestioneTurniAgenti.Client.Components;
+﻿using GestioneTurniAgenti.Client.Components;
 using GestioneTurniAgenti.Client.HttpInterceptor;
 using GestioneTurniAgenti.Client.Services;
 using GestioneTurniAgenti.Shared.Dtos.Anagrafica;
@@ -30,9 +28,6 @@ namespace GestioneTurniAgenti.Client.Pages
         [Inject]
         public HttpInterceptorService Interceptor { get; set; }
 
-        [CascadingParameter]
-        public IModalService Modal { get; set; }
-
         public List<RepartoDto> Reparti { get; set; } = new();
         public List<EventoDto> Eventi { get; set; } = new();
 
@@ -60,15 +55,6 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             TurniReturned = await TurniService.GetAllTurni(TurniSearchParameters);
             StateHasChanged();
-        }
-
-
-        public void ApriModale(Guid turnoId)
-        {
-            var parameters = new ModalParameters();
-            parameters.Add(nameof(DeleteTurno.TurnoId), turnoId);
-
-            Modal.Show<DeleteTurno>("Vuoi modificare il seguente turno?", parameters);
         }
 
         public void Dispose()

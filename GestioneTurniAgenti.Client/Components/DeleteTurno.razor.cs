@@ -1,6 +1,4 @@
-﻿using Blazored.Modal;
-using Blazored.Modal.Services;
-using GestioneTurniAgenti.Client.Pages;
+﻿using GestioneTurniAgenti.Client.Pages;
 using GestioneTurniAgenti.Client.Services;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
 using Microsoft.AspNetCore.Components;
@@ -14,9 +12,6 @@ namespace GestioneTurniAgenti.Client.Components
 {
     public partial class DeleteTurno
     {
-        [CascadingParameter]
-        private BlazoredModalInstance ModalInstance { get; set; }
-
         [Parameter]
         public Guid TurnoId { get; set; }
 
@@ -33,7 +28,6 @@ namespace GestioneTurniAgenti.Client.Components
         public async Task ConfirmDeletion()
         {
             await TurniService.DeleteTurno(TurnoId);
-            await ModalInstance.CloseAsync();
         }
     }
 }
