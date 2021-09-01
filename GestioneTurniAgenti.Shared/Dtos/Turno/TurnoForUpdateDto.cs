@@ -15,10 +15,10 @@ namespace GestioneTurniAgenti.Shared.Dtos.Turno
         [Required]
         public Guid EventoId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Data turno è un valore obbligatorio.")]
         public DateTime Data { get; set; }
 
-        [MaxLength(500, ErrorMessage = "Lunghezza massima di 500 caratteri.")]
+        [MaxLength(500, ErrorMessage = "Lunghezza massima note consentita è di 500 caratteri.")]
         public string Note { get; set; }
     }
 }

@@ -70,7 +70,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (!await _turniRepository.CheckCompatibilityEventoWithData(turnoForCreation.EventoId, turnoForCreation.Data, out (DateTime max, DateTime min) values))
             {
-                return BadRequest($"Evento {turnoForCreation.EventoId} non è compatibile con la data inserita {turnoForCreation.Data:dd/MM/yyyy}. Valori permessi tra {values.min:dd/MM/yyyy} e {values.max:dd/MM/yyyy}.");
+                return BadRequest($"Evento con id {turnoForCreation.EventoId} non è compatibile con la data inserita {turnoForCreation.Data:dd/MM/yyyy}. Valori permessi tra {values.min:dd/MM/yyyy} e {values.max:dd/MM/yyyy}.");
             }
 
             if (await _turniRepository.CheckDuplicatedTurno(turnoForCreation.AgenteId, turnoForCreation.EventoId, turnoForCreation.Data))
@@ -95,7 +95,7 @@ namespace GestioneTurniAgenti.Server.Controllers
             if (turnoForUpdate == null)
             {
                 _logger.LogError("TurnoForUpdateDto object sent is null.");
-                return BadRequest("TurnoForUpdateDto object is null");
+                return BadRequest("TurnoForUpdateDto object è nullo.");
             }
 
             var turno = await _turniRepository.GetTurnoById(turnoId, trackChanges: true); ;
@@ -137,7 +137,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (turno == null)
             {
-                return NotFound($"Cannot found turno with id {turnoId} on the database.");
+                return NotFound($"Turno con id {turnoId} non trovato nel database.");
             }
 
             _turniRepository.Delete(turno);

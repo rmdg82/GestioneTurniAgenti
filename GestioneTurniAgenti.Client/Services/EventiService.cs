@@ -19,9 +19,17 @@ namespace GestioneTurniAgenti.Client.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
-        public async Task DeleteEvento(Guid eventoId)
+        public async Task<string> DeleteEvento(Guid eventoId)
         {
-            await _client.DeleteAsync($"eventi/{eventoId}");
+            var response = await _client.DeleteAsync($"eventi/{eventoId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            else
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
         }
 
         public async Task<IEnumerable<EventoDto>> GetAllEventi()

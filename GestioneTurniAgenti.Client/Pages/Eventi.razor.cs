@@ -53,8 +53,18 @@ namespace GestioneTurniAgenti.Client.Pages
         public async Task DeleteEvento()
         {
             _confirmation.Hide();
-            await EventiService.DeleteEvento(_eventoToDeleteId);
-            ToastService.ShowSuccess("Evento eliminato con successo!");
+
+            var errorMessage = await EventiService.DeleteEvento(_eventoToDeleteId);
+            if (errorMessage is null)
+            {
+                ToastService.ShowSuccess("Evento eliminato con successo!");
+            }
+            else
+            {
+                ToastService.ShowWarning(errorMessage);
+            }
+
+            await GetEventi();
         }
 
         public void Dispose()

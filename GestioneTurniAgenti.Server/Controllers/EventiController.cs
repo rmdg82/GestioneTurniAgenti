@@ -54,12 +54,12 @@ namespace GestioneTurniAgenti.Server.Controllers
             if (eventoForCreation == null)
             {
                 _logger.LogError("EventoForCreationDto object sent is null.");
-                return BadRequest("EventoForCreationDto object sent is null");
+                return BadRequest("EventoForCreationDto object è nullo");
             }
 
             if (await _eventiRepository.CheckDuplicatedEvento(eventoForCreation.Inizio, eventoForCreation.Fine, eventoForCreation.Nome))
             {
-                return BadRequest($"Evento with name {eventoForCreation.Nome}, data inizio {eventoForCreation.Inizio.Date}, data fine {eventoForCreation.Fine.Date} already exists in the database.");
+                return BadRequest($"Evento con nome {eventoForCreation.Nome}, data inizio {eventoForCreation.Inizio.Date}, data fine {eventoForCreation.Fine.Date} esiste già nel database.");
             }
 
             var evento = _mapper.Map<Evento>(eventoForCreation);
@@ -79,7 +79,7 @@ namespace GestioneTurniAgenti.Server.Controllers
             if (eventoForUpdate == null)
             {
                 _logger.LogError("EventoForUpdateDto object sent is null.");
-                return BadRequest("EventoForUpdateDto object is null");
+                return BadRequest("EventoForUpdateDto object è nullo.");
             }
 
             var evento = await _eventiRepository.GetById(eventoId);
@@ -90,7 +90,12 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (await _eventiRepository.CheckDuplicatedEvento(eventoForUpdate.Inizio, eventoForUpdate.Fine, eventoForUpdate.Nome))
             {
-                return BadRequest($"Evento with name {eventoForUpdate.Nome}, data inizio {eventoForUpdate.Inizio.Date}, data fine {eventoForUpdate.Fine.Date} already exists in the database.");
+                return BadRequest($"Evento con nome {eventoForUpdate.Nome}, data inizio {eventoForUpdate.Inizio.Date}, data fine {eventoForUpdate.Fine.Date} esiste già nel database.");
+            }
+
+            if (await _eventiRepository.CheckInizioFineCompatibilityWithTurni(eventoId, eventoForUpdate.Inizio, eventoForUpdate.Fine, out int numTurni))
+            {
+                return BadRequest($"Modifica date inizio e fine dell'evento con nome {eventoForUpdate.Nome} non permessa. Lascierebbe {numTurni} turni senza evento di riferimento.");
             }
 
             _mapper.Map(eventoForUpdate, evento);
@@ -105,12 +110,12 @@ namespace GestioneTurniAgenti.Server.Controllers
             var evento = await _eventiRepository.GetById(eventoId);
             if (evento == null)
             {
-                return NotFound($"Cannot found evento with id {eventoId} on the database.");
+                return NotFound($"Evento con id {eventoId} non trovato nel database.");
             }
 
-            if (await _eventiRepository.CheckTurniLinkedToEvento(eventoId))
+            if (await _eventiRepository.CheckTurniLinkedToEvento(eventoId, out int numTurni))
             {
-                return BadRequest($"There are some still Turni linked to the evento {eventoId}.");
+                return BadRequest($"Ci sono ancora {numTurni} turni legati all'evento {evento.Nome} con id {eventoId}. Verificare dalla pagina dei turni.");
             }
 
             _eventiRepository.Delete(evento);

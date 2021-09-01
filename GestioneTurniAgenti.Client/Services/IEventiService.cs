@@ -17,6 +17,6 @@ namespace GestioneTurniAgenti.Client.Services
 
         Task<string> UpdateEvento(Guid eventoId, EventoForUpdateDto eventoDto);
 
-        Task DeleteEvento(Guid eventoId);
+        Task<string> DeleteEvento(Guid eventoId);
     }
 }

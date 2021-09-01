@@ -47,6 +47,16 @@ namespace GestioneTurniAgenti.Client.Pages
         private EditContext _editContext;
         private bool _formInvalid = true;
 
+        protected override async Task OnInitializedAsync()
+        {
+            _editContext = new EditContext(_turnoForUpdateDto);
+            _editContext.OnFieldChanged += HandleFieldChanged;
+            Interceptor.RegisterEvent();
+
+            await GetEventi();
+            await FetchDataFromTurnoId(TurnoId);
+        }
+
         public async Task GetEventi()
         {
             Eventi = (await EventiService.GetAllEventi(null)).ToList();
@@ -59,20 +69,11 @@ namespace GestioneTurniAgenti.Client.Pages
             _turnoForUpdateDto.EventoId = turno.EventoId;
             _turnoForUpdateDto.Data = turno.Data;
             _turnoForUpdateDto.Note = turno.Note;
+
             NomeAgente = turno.AgenteNome;
             CognomeAgente = turno.AgenteCognome;
             MatricolaAgente = turno.AgenteMatricola;
             RepartoAgente = turno.AgenteRepartoNome;
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            _editContext = new EditContext(_turnoForUpdateDto);
-            _editContext.OnFieldChanged += HandleFieldChanged;
-            Interceptor.RegisterEvent();
-
-            await GetEventi();
-            await FetchDataFromTurnoId(TurnoId);
         }
 
         private void HandleFieldChanged(object sender, FieldChangedEventArgs e)

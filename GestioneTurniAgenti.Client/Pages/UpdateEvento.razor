@@ -1,1 +1,33 @@
-﻿
+﻿@page "/modificaEvento/{eventoId:guid}"
+
+<h2>Modifica evento</h2>
+
+<EditForm EditContext="_editContext" OnValidSubmit="Update" class="card card-body bg-light mt-5">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group row">
+        <label for="nome" class="col-md-2 col-form-label">Nome evento:</label>
+        <InputText class="form-control" id="nome" @bind-Value="_eventoForUpdateDto.Nome"></InputText>
+    </div>
+
+    <div class="form-group row">
+        <label for="inizio" class="col-md-2 col-form-label">Data inizio:</label>
+        <InputDate id="inizio" @bind-Value="_eventoForUpdateDto.Inizio"></InputDate>
+        <ValidationMessage For="@(() => _eventoForUpdateDto.Inizio)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="fine" class="col-md-2 col-form-label">Data fine:</label>
+        <InputDate id="fine" @bind-Value="_eventoForUpdateDto.Fine"></InputDate>
+        <ValidationMessage For="@(() => _eventoForUpdateDto.Fine)" />
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a class="btn btn-outline-primary" href="/eventi">Indietro</a>
+            <button type="submit" class="btn btn-success">
+                Salva
+            </button>
+        </div>
+    </div>
+</EditForm>

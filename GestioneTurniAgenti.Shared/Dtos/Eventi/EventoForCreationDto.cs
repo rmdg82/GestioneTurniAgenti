@@ -9,7 +9,7 @@ namespace GestioneTurniAgenti.Shared.Dtos.Eventi
 {
     public class EventoForCreationDto : IValidatableObject
     {
-        [Required(ErrorMessage = "Campo obligatorio.")]
+        [Required(ErrorMessage = "Nome è un campo obligatorio.")]
         public string Nome { get; set; }
 
         public DateTime Inizio { get; set; }

@@ -34,17 +34,43 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
             return evento != null;
         }
 
-        public async Task<bool> CheckTurniLinkedToEvento(Guid eventoId)
+        public Task<bool> CheckInizioFineCompatibilityWithTurni(Guid eventoId, DateTime inizio, DateTime fine, out int numTurni)
         {
-            var evento = await _context.Eventi.FindAsync(eventoId);
+            numTurni = 0;
+
+            var evento = _context.Eventi.Find(eventoId);
+
             if (evento == null)
             {
-                return false;
+                return Task.FromResult(false);
             }
 
-            var turni = await _context.Turni.Where(t => t.EventoId.Equals(eventoId)).ToListAsync();
+            var turni = _context.Turni.Where(t => t.EventoId.Equals(eventoId)).ToList();
 
-            return turni.Any();
+            foreach (var turno in turni)
+            {
+                if (turno.Data < inizio || turno.Data > fine)
+                {
+                    numTurni++;
+                }
+            }
+
+            return Task.FromResult(numTurni > 0);
+        }
+
+        public Task<bool> CheckTurniLinkedToEvento(Guid eventoId, out int numTurni)
+        {
+            numTurni = 0;
+            Evento evento = _context.Eventi.Find(eventoId);
+            if (evento == null)
+            {
+                return Task.FromResult(false);
+            }
+
+            var turni = _context.Turni.Where(t => t.EventoId.Equals(eventoId)).ToList();
+            numTurni = turni.Count;
+
+            return Task.FromResult(turni.Any());
         }
 
         public async Task<IEnumerable<Evento>> GetEventiFromParams(EventiSearchParameters parameters, bool trackChanges = false)

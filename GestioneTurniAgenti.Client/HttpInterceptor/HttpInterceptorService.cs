@@ -33,7 +33,7 @@ namespace GestioneTurniAgenti.Client.HttpInterceptor
             {
                 //_navManager.NavigateTo("/error");
                 //throw new HttpResponseException("Server not available.");
-                _toastService.ShowError("Servizio non raggiungibile. Verifica che sia raggiungibile e riprovare.");
+                _toastService.ShowError("Servizio non raggiungibile. Verifica che il server sia raggiungibile e riprovare.");
                 throw new HttpResponseException("Server not available.");
             }
 

@@ -17,6 +17,8 @@ namespace GestioneTurniAgenti.Server.Repositories.Contracts
 
         Task<bool> CheckDuplicatedEvento(DateTime inizio, DateTime fine, string nome);
 
-        Task<bool> CheckTurniLinkedToEvento(Guid eventoId);
+        Task<bool> CheckTurniLinkedToEvento(Guid eventoId, out int numTurni);
+
+        Task<bool> CheckInizioFineCompatibilityWithTurni(Guid eventoId, DateTime inizio, DateTime fine, out int numTurni);
     }
 }
