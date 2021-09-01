@@ -145,5 +145,12 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("massivo")]
+        public async Task<IActionResult> LoadTurniFromMassivo()
+        {
+            // Il servizio non è ancora implementato
+            return BadRequest("Servizio non ancora implementato.");
+        }
     }
 }

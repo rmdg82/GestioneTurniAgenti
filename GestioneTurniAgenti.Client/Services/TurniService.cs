@@ -19,6 +19,17 @@ namespace GestioneTurniAgenti.Client.Services
             _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
+        public async Task CreateFromMassivo(MultipartFormDataContent content)
+        {
+            var response = await _client.PostAsync($"turni/massivo", content);
+            var resContent = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new ApplicationException(resContent);
+            }
+        }
+
         public async Task<string> CreateTurno(TurnoForCreationDto turnoDto)
         {
             var response = await _client.PostAsJsonAsync("turni", turnoDto);
