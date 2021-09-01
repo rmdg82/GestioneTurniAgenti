@@ -124,5 +124,12 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
 
             return await query.AsNoTracking().ToListAsync();
         }
+
+        public async Task<int> GetTurniLinkedToEvento(Guid eventoId)
+        {
+            var linkedTurni = await _context.Turni.Where(t => t.EventoId.Equals(eventoId)).ToListAsync();
+
+            return linkedTurni.Count;
+        }
     }
 }

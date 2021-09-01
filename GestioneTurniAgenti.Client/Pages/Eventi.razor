@@ -25,6 +25,7 @@
                 <th scope="col">Nome</th>
                 <th scope="col">Inizio</th>
                 <th scope="col">Fine</th>
+                <th scope="col">Num Turni</th>
                 <th scope="col">Azioni</th>
             </tr>
         </thead>
@@ -35,6 +36,7 @@
                     <td>@evento.Nome</td>
                     <td>@evento.Inizio.ToString("dd/MM/yyyy")</td>
                     <td>@evento.Fine.ToString("dd/MM/yyyy")</td>
+                    <td>@evento.NumTurniLegati</td>
                     <td>
                         <a class="btn btn-warning" href="modificaEvento/@evento.Id">Modifica</a> |
                         <button class="btn btn-danger" @onclick="() => CallConfirmationModal(evento)">Elimina</button>

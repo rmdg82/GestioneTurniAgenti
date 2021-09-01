@@ -32,7 +32,12 @@ namespace GestioneTurniAgenti.Server.Controllers
         public async Task<ActionResult<IEnumerable<EventoDto>>> GetAllEventi([FromQuery] EventiSearchParameters parameters)
         {
             var eventi = await _eventiRepository.GetEventiFromParams(parameters);
-            return Ok(_mapper.Map<IEnumerable<EventoDto>>(eventi));
+            var eventiDto = _mapper.Map<IEnumerable<EventoDto>>(eventi);
+            foreach (var eventoDto in eventiDto)
+            {
+                eventoDto.NumTurniLegati = await _eventiRepository.GetTurniLinkedToEvento(eventoDto.Id);
+            }
+            return Ok(eventiDto);
         }
 
         [HttpGet("{eventoId}", Name = "EventoById")]
@@ -45,7 +50,10 @@ namespace GestioneTurniAgenti.Server.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<EventoDto>(evento));
+            var eventoDto = _mapper.Map<EventoDto>(evento);
+            eventoDto.NumTurniLegati = await _eventiRepository.GetTurniLinkedToEvento(eventoId);
+
+            return Ok(eventoDto);
         }
 
         [HttpPost]

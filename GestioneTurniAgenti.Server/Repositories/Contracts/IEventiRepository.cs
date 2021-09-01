@@ -20,5 +20,7 @@ namespace GestioneTurniAgenti.Server.Repositories.Contracts
         Task<bool> CheckTurniLinkedToEvento(Guid eventoId, out int numTurni);
 
         Task<bool> CheckInizioFineCompatibilityWithTurni(Guid eventoId, DateTime inizio, DateTime fine, out int numTurni);
+
+        Task<int> GetTurniLinkedToEvento(Guid eventoId);
     }
 }

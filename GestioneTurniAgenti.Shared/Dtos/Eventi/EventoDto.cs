@@ -12,5 +12,6 @@ namespace GestioneTurniAgenti.Shared.Dtos.Eventi
         public string Nome { get; set; }
         public DateTime Inizio { get; set; }
         public DateTime Fine { get; set; }
+        public int NumTurniLegati { get; set; }
     }
 }
