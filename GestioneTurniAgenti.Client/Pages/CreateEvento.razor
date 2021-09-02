@@ -1,5 +1,7 @@
 ﻿@page "/creaEvento"
 
+@attribute [Authorize(Roles = "Administrator")]
+
 <h2>Crea nuovo evento</h2>
 
 <EditForm EditContext="_editContext" OnValidSubmit="Create" class="card card-body bg-light mt-5">
@@ -30,10 +32,10 @@
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a href="/eventi" class="btn btn-outline-primary">Indietro</a>
+            <a href="/eventi" class="btn btn-outline-primary"><span class="oi oi-arrow-left"></span> Indietro</a>
             <button type="submit" class="btn btn-success"
                     disabled="@_formInvalid">
-                Crea
+                <span class="oi oi-plus"></span> Crea
             </button>
         </div>
     </div>

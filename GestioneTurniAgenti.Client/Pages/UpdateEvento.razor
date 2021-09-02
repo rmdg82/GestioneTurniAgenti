@@ -1,5 +1,7 @@
 ﻿@page "/modificaEvento/{eventoId:guid}"
 
+@attribute [Authorize(Roles = "Administrator")]
+
 <h2>Modifica evento</h2>
 
 <EditForm EditContext="_editContext" OnValidSubmit="Update" class="card card-body bg-light mt-5">
@@ -24,9 +26,9 @@
 
     <div class="row">
         <div class="col-md-12 text-right">
-            <a class="btn btn-outline-primary" href="/eventi">Indietro</a>
+            <a class="btn btn-outline-primary" href="/eventi"><span class="oi oi-arrow-left"></span> Indietro</a>
             <button type="submit" class="btn btn-success">
-                Salva
+                <span class="oi oi-hard-drive"></span> Salva
             </button>
         </div>
     </div>

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @page "/anagrafica"
 
+@attribute [Authorize]
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Ricerca agenti</h5>
@@ -25,7 +26,7 @@
                     }
                 </select>
             </div>
-            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetAgenti">Cerca</button>
+            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetAgenti"><span class="oi oi-magnifying-glass"></span> Cerca</button>
         </div>
     </div>
 </div>

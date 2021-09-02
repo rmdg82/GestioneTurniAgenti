@@ -22,13 +22,13 @@
                 </dl>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal"
-                        @onclick="() => OnOKClicked.InvokeAsync()">
-                    Elimina
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal"
+                        @onclick="Hide">
+                    <span class="oi oi-arrow-left"></span> Annulla
                 </button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal"
-                        @onclick="Hide">
-                    Annulla
+                        @onclick="() => OnOKClicked.InvokeAsync()">
+                    <span class="oi oi-trash"></span> Elimina
                 </button>
             </div>
         </div>

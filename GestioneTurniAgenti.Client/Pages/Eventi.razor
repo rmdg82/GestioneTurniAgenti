@@ -1,4 +1,6 @@
 ﻿@page "/eventi"
+
+@attribute [Authorize(Roles = "Administrator")]
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Ricerca Eventi</h5>
@@ -11,8 +13,8 @@
                 <input type="text" class="form-control" placeholder="Matricola Agente" @bind-value="EventiSearchParameters.MatricolaAgente" />
             </div>
 
-            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetEventi">Cerca</button>
-            <a href="creaEvento" class="btn btn-lg btn-success text-white ml-auto mr-1">Crea nuovo evento</a>
+            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetEventi"><span class="oi oi-magnifying-glass"></span> Cerca</button>
+            <a href="creaEvento" class="btn btn-lg btn-success text-white ml-auto mr-1"><span class="oi oi-plus"></span> Crea nuovo evento</a>
         </div>
     </div>
 </div>
@@ -38,8 +40,12 @@
                     <td>@evento.Fine.ToString("dd/MM/yyyy")</td>
                     <td>@evento.NumTurniLegati</td>
                     <td>
-                        <a class="btn btn-warning" href="modificaEvento/@evento.Id">Modifica</a> |
-                        <button class="btn btn-danger" @onclick="() => CallConfirmationModal(evento)">Elimina</button>
+                        <a class="btn btn-warning" href="modificaEvento/@evento.Id">
+                            <span class="oi oi-pencil"></span> Modifica
+                        </a> |
+                        <button class="btn btn-danger" @onclick="() => CallConfirmationModal(evento)">
+                            <span class="oi oi-trash"></span> Elimina
+                        </button>
                     </td>
                 </tr>
             }

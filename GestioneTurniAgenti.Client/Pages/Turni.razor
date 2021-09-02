@@ -1,4 +1,6 @@
 ﻿@page "/turni"
+
+@attribute [Authorize]
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Ricerca turni</h5>
@@ -34,8 +36,8 @@
                     }
                 </select>
             </div>
-            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetTurni">Cerca</button>
-            <a href="turni/massivo" class="btn btn-lg btn-success text-white ml-auto mr-1">Carica turni da file</a>
+            <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetTurni"><span class="oi oi-magnifying-glass"></span> Cerca</button>
+            <a href="turni/massivo" class="btn btn-lg btn-success text-white ml-auto mr-1"><span class="oi oi-spreadsheet"></span> Carica turni da file</a>
         </div>
     </div>
 </div>
@@ -65,8 +67,12 @@
                     <td>@turno.EventoNome</td>
                     <td>@turno.Data.ToString("dd/MM/yyyy")</td>
                     <td>
-                        <a class="btn btn-warning" href="modificaTurno/@turno.Id">Modifica</a> |
-                        <button class="btn btn-danger" @onclick="() => CallConfirmationModal(turno)">Elimina</button>
+                        <a class="btn btn-warning" href="modificaTurno/@turno.Id">
+                            <span class="oi oi-pencil"></span> Modifica
+                        </a> |
+                        <button class="btn btn-danger" @onclick="() => CallConfirmationModal(turno)">
+                            <span class="oi oi-trash"></span> Elimina
+                        </button>
                     </td>
                 </tr>
             }
