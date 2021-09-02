@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GestioneTurniAgenti.Client.AuthProviders;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -17,10 +19,17 @@ namespace GestioneTurniAgenti.Client.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
+            var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authstate.User;
 
-            LoggedUser = user.Identity.Name;
+            if (!user.Identity.IsAuthenticated)
+            {
+                LoggedUser = "Non autenticato";
+            }
+            else
+            {
+                LoggedUser = user.Identity.Name;
+            }
         }
     }
 }

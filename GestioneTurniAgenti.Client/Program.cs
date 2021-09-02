@@ -1,4 +1,5 @@
 using Blazored.Toast;
+using GestioneTurniAgenti.Client.AuthProviders;
 using GestioneTurniAgenti.Client.HttpInterceptor;
 using GestioneTurniAgenti.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -39,7 +40,9 @@ namespace GestioneTurniAgenti.Client
             builder.Services.AddScoped<ITurniService, TurniService>();
 
             builder.Services.AddBlazoredToast();
+
             builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, MockAuthStateProvider>();
 
             await builder.Build().RunAsync();
         }
