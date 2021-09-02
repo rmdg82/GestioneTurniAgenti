@@ -12,7 +12,8 @@ namespace GestioneTurniAgenti.Client.AuthProviders
 {
     public class MockedAuthStateProvider : AuthenticationStateProvider
     {
-        private readonly Roles _selectedRole = Roles.SuperAdmin;
+        // Change here to change the role and user logged in the app
+        private readonly Roles _selectedRole = Roles.Admin;
 
         public static async Task<AuthenticationState> GetAuthenticationStateAsync(Roles role)
         {

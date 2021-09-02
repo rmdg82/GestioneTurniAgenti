@@ -8,7 +8,7 @@ namespace GestioneTurniAgenti.Client.Authentication
 {
     public class UserNames
     {
-        public const string Admin = "Admin";
-        public const string SuperAdmin = "Super-Admin";
+        public const string Admin = "Utente1(Admin)";
+        public const string SuperAdmin = "Utente2(Super-Admin)";
     }
 }
