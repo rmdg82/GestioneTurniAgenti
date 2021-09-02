@@ -92,6 +92,10 @@ namespace GestioneTurniAgenti.Server.Contexts
                 .IsRequired();
 
             builder.Entity<Evento>()
+                .HasIndex(e => e.Nome)
+                .IsUnique();
+
+            builder.Entity<Evento>()
                 .HasCheckConstraint("CK_Eventi_InizioPrecedenteFine", "Inizio <= Fine");
 
             SeedInitialData(builder);
@@ -158,6 +162,14 @@ namespace GestioneTurniAgenti.Server.Contexts
                     Cognome = "Viola",
                     Matricola = "789012FG",
                     RepartoId = new Guid("7307b34f-052c-4ef1-b0c3-fb6b3ffe8f3f")
+                },
+                new Agente
+                {
+                    Id = Guid.NewGuid(),
+                    Nome = "Guido",
+                    Cognome = "Giallo",
+                    Matricola = "123432HG",
+                    RepartoId = new Guid("144913db-12eb-4751-ab94-be4b26b777e1")
                 });
 
             builder.Entity<Evento>()

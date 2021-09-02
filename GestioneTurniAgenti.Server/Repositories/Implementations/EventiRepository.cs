@@ -25,11 +25,14 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
 
         public async Task<bool> CheckDuplicatedEvento(DateTime inizio, DateTime fine, string nome)
         {
-            var evento = await _context.Eventi
-                .FirstOrDefaultAsync(
-                    e => e.Nome.Equals(nome) &&
-                    e.Inizio.Date.Equals(inizio.Date) &&
-                    e.Fine.Date.Equals(fine.Date));
+            //var evento = await _context.Eventi
+            //    .FirstOrDefaultAsync(
+            //        e => e.Nome.Equals(nome) &&
+            //        e.Inizio.Date.Equals(inizio.Date) &&
+            //        e.Fine.Date.Equals(fine.Date));
+
+            // Check only events with duplicated name
+            var evento = await _context.Eventi.FirstOrDefaultAsync(e => e.Nome.Equals(nome));
 
             return evento != null;
         }

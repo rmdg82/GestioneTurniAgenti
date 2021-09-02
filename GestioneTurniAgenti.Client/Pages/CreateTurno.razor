@@ -33,10 +33,10 @@
     <div class="form-group row">
         <label for="evento" class="col-md-2 col-form-label">Evento:</label>
         <select class="form-control" @bind="_turnoForCreationDto.EventoId">
-            <option selected>Scegli il nome evento ...</option>
+            <option selected>Selezionare l'evento ...</option>
             @foreach (var evento in Eventi)
             {
-                <option value="@evento.Id">@evento.Nome</option>
+                <option value="@evento.Id">@evento.Nome - Periodo: @evento.Inizio.ToString("dd/MM/yyyy")-@evento.Fine.ToString("dd/MM/yyyy")</option>
             }
         </select>
     </div>

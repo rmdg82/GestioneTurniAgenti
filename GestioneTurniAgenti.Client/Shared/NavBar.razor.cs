@@ -15,7 +15,7 @@ namespace GestioneTurniAgenti.Client.Shared
         [Inject]
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
-        public string LoggedUser { get; set; } = "Login";
+        public string LoggedUser { get; set; } = "Nessun utente";
 
         protected override async Task OnInitializedAsync()
         {

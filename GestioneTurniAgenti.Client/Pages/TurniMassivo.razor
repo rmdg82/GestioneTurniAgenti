@@ -1,5 +1,49 @@
 ﻿@page "/turni/massivo"
 
 <h2>Carica turni da file CSV</h2>
+<br />
+<div class="card">
+    <div class="card-body">
+        <InputFile OnChange="CaricaFile" accept=".csv" />
+    </div>
+</div>
+<br />
+@if (_filesent)
+{
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Tabella riepilogo turni da file (risultato fake)</h4>
 
-<InputFile OnChange="CaricaFile" accept=".csv" />
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Matricola Agente</th>
+                        <th scope="col">Nome Evento</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Risultato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-danger">
+                        <td>123456AB</td>
+                        <td>Evento1</td>
+                        <td>01/01/2021</td>
+                        <td><span class="oi oi-circle-x"></span></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>789012CD</td>
+                        <td>Evento2</td>
+                        <td>01/02/2021</td>
+                        <td><span class="oi oi-circle-check"></span></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>789012CD</td>
+                        <td>Evento1</td>
+                        <td>01/03/2021</td>
+                        <td><span class="oi oi-circle-check"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

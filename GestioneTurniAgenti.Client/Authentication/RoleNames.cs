@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Client.Authentication
 {
-    public class Role
+    public class RoleNames
     {
         public const string Admin = "Admin";
         public const string SuperAdmin = "Super-Admin";

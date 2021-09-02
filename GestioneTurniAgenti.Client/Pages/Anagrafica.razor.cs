@@ -8,13 +8,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
     public partial class Anagrafica : IDisposable
     {
+        [CascadingParameter]
+        public Task<AuthenticationState> AuthState { get; set; }
+
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         [Inject]
         public HttpInterceptorService Interceptor { get; set; }

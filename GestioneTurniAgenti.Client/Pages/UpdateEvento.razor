@@ -1,6 +1,7 @@
 ﻿@page "/modificaEvento/{eventoId:guid}"
+@using GestioneTurniAgenti.Client.Authentication
 
-@attribute [Authorize(Roles = "Administrator")]
+@attribute [Authorize(Roles = RoleNames.SuperAdmin)]
 
 <h2>Modifica evento</h2>
 

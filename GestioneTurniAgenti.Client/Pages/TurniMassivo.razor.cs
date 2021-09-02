@@ -21,6 +21,8 @@ namespace GestioneTurniAgenti.Client.Pages
         [Inject]
         public IToastService ToastService { get; set; }
 
+        private bool _filesent;
+
         private async Task CaricaFile(InputFileChangeEventArgs e)
         {
             if (e.FileCount == 1 && e.File.Size > 0)
@@ -32,6 +34,7 @@ namespace GestioneTurniAgenti.Client.Pages
 
                 try
                 {
+                    _filesent = true;
                     await TurniService.CreateFromMassivo(content);
                 }
                 catch (Exception ex)

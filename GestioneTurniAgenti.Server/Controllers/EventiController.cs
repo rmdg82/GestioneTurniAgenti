@@ -67,7 +67,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (await _eventiRepository.CheckDuplicatedEvento(eventoForCreation.Inizio, eventoForCreation.Fine, eventoForCreation.Nome))
             {
-                return BadRequest($"Evento con nome {eventoForCreation.Nome}, data inizio {eventoForCreation.Inizio.Date}, data fine {eventoForCreation.Fine.Date} esiste già nel database.");
+                return BadRequest($"Evento con nome {eventoForCreation.Nome} esiste già nel database.");
             }
 
             var evento = _mapper.Map<Evento>(eventoForCreation);
@@ -98,7 +98,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 
             if (await _eventiRepository.CheckDuplicatedEvento(eventoForUpdate.Inizio, eventoForUpdate.Fine, eventoForUpdate.Nome))
             {
-                return BadRequest($"Evento con nome {eventoForUpdate.Nome}, data inizio {eventoForUpdate.Inizio.Date}, data fine {eventoForUpdate.Fine.Date} esiste già nel database.");
+                return BadRequest($"Evento con nome {eventoForUpdate.Nome} esiste già nel database.");
             }
 
             if (await _eventiRepository.CheckInizioFineCompatibilityWithTurni(eventoId, eventoForUpdate.Inizio, eventoForUpdate.Fine, out int numTurni))
