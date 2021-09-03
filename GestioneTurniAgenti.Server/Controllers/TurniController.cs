@@ -3,6 +3,7 @@ using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
 using GestioneTurniAgenti.Shared.SearchParameters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -145,7 +146,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         public async Task<IActionResult> LoadTurniFromMassivo()
         {
             // Il servizio non è ancora implementato
-            return BadRequest("Servizio non ancora implementato.");
+            return StatusCode(503, "Servizio non ancora implementato.");
         }
     }
 }
