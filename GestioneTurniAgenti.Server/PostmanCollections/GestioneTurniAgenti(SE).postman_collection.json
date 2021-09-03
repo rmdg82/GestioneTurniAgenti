@@ -25,6 +25,35 @@
 			"response": []
 		},
 		{
+			"name": "GetAgentiByFilter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/anagrafica/agenti?repartoid=7f2fb853-4aab-43d3-9448-d9f3edbc793c&",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"anagrafica",
+						"agenti"
+					],
+					"query": [
+						{
+							"key": "repartoid",
+							"value": "7f2fb853-4aab-43d3-9448-d9f3edbc793c"
+						},
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GetAgenteById",
 			"request": {
 				"method": "GET",
@@ -123,6 +152,30 @@
 			"response": []
 		},
 		{
+			"name": "GetAllTurniByFilter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/api/turni?eventonome=eve",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"api",
+						"turni"
+					],
+					"query": [
+						{
+							"key": "eventonome",
+							"value": "eve"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GetTurniById",
 			"request": {
 				"method": "GET",
@@ -148,7 +201,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"agenteId\": \"ca0d2a00-fdf1-4117-872b-19f537c59d39\",\r\n    \"eventoId\": \"95146179-3589-4a7a-916e-0d696574273e\",\r\n    \"data\": \"2021-08-23T00:49:51.742Z\",\r\n    \"note\": \"Nota1\"\r\n}",
+					"raw": "{\r\n    \"agenteId\": \"c6f798ed-211e-4c5e-8855-c7512bc66839\",\r\n    \"eventoId\": \"95146179-3589-4a7a-916e-0d696574273e\",\r\n    \"data\": \"2020-08-23T00:49:51.742Z\",\r\n    \"note\": \"Nota2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -286,7 +339,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"nome\": \"Evento1Rinominiato\",\r\n  \"inizio\": \"2021-08-01\",\r\n  \"fine\": \"2021-09-01\"\r\n}",
+					"raw": "{\r\n  \"nome\": \"Evento 1\",\r\n  \"inizio\": \"2021-08-01\",\r\n  \"fine\": \"2021-09-01\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -313,14 +366,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{localhost}}/api/eventi/16d535ca-842f-40ef-a68e-f2e9802bb393",
+					"raw": "{{localhost}}/api/eventi/0adc2d1c-7f8d-41a7-8a70-ac0b498ba4f9",
 					"host": [
 						"{{localhost}}"
 					],
 					"path": [
 						"api",
 						"eventi",
-						"16d535ca-842f-40ef-a68e-f2e9802bb393"
+						"0adc2d1c-7f8d-41a7-8a70-ac0b498ba4f9"
 					]
 				}
 			},
