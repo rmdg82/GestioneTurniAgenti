@@ -3,6 +3,7 @@ using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Eventi;
 using GestioneTurniAgenti.Shared.SearchParameters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,6 +16,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 {
     [ApiController]
     [Route("api/eventi")]
+    [Authorize]
     public class EventiController : ControllerBase
     {
         private readonly ILogger<EventiController> _logger;

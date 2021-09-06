@@ -3,14 +3,16 @@ using System;
 using GestioneTurniAgenti.Server.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestioneTurniAgenti.Server.Migrations
 {
     [DbContext(typeof(GestioneTurniDbContext))]
-    partial class GestioneTurniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210905164019_SeedIdentityData")]
+    partial class SeedIdentityData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

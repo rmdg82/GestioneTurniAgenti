@@ -3,14 +3,16 @@ using System;
 using GestioneTurniAgenti.Server.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GestioneTurniAgenti.Server.Migrations
 {
     [DbContext(typeof(GestioneTurniDbContext))]
-    partial class GestioneTurniDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210905154250_AddIdentityIntegrationWithUserAndRoles")]
+    partial class AddIdentityIntegrationWithUserAndRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +55,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c4c1cfa4-b89a-47cc-9455-ece920e4fbec"),
+                            Id = new Guid("02ba7d6d-a4bf-4144-99f9-cac84ed29790"),
                             Cognome = "Rossi",
                             Matricola = "123456AB",
                             Nome = "Mario",
@@ -61,7 +63,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3c1088ae-a59e-4b17-8754-48cf84b420c6"),
+                            Id = new Guid("39c654db-da8d-4f7d-911a-a9e857a77ea7"),
                             Cognome = "Bianchi",
                             Matricola = "789012CD",
                             Nome = "Antonio",
@@ -69,7 +71,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1d510fbc-9a24-4a60-810b-e8513851b1a1"),
+                            Id = new Guid("40a34a84-412e-4c53-8dfe-db739bd01202"),
                             Cognome = "Verdi",
                             Matricola = "135267EF",
                             Nome = "Pietro",
@@ -77,7 +79,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a77588e1-2416-4aa1-bbb9-3182c344a6ad"),
+                            Id = new Guid("4e051e63-f614-4c2a-9e93-2eeaa5a3c9db"),
                             Cognome = "Blu",
                             Matricola = "564922HJ",
                             Nome = "Antonio",
@@ -85,7 +87,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2ee6d35d-551e-486f-956a-998bc23dd24c"),
+                            Id = new Guid("c74e7f28-6216-48bf-8683-5cadc92ddf67"),
                             Cognome = "Viola",
                             Matricola = "789012FG",
                             Nome = "Paolo",
@@ -93,7 +95,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("50dc6495-494c-4262-8933-caf914bea25e"),
+                            Id = new Guid("43bf846b-32d4-4484-a1e9-be79177a23ba"),
                             Cognome = "Giallo",
                             Matricola = "123432HG",
                             Nome = "Guido",
@@ -245,22 +247,6 @@ namespace GestioneTurniAgenti.Server.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c",
-                            ConcurrencyStamp = "fe5ab6bc-6a4b-46d8-88ef-498196c3195d",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f",
-                            ConcurrencyStamp = "78360f14-2957-4c7c-a9f4-c89ecd1ab894",
-                            Name = "Super-Admin",
-                            NormalizedName = "SUPER-ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -348,36 +334,6 @@ namespace GestioneTurniAgenti.Server.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6434dcb-b833-4613-947f-7573c62f21d6",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "123456AB",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOpWTr/ydmC85EK/MQ51G0+yW0V7Vx8kaoV6U46Qsn3XkQ1BN11xt+P/H/Ct49N0lA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "d5e001d2-92ea-4f42-9278-276d451075cb",
-                            TwoFactorEnabled = false,
-                            UserName = "123456AB"
-                        },
-                        new
-                        {
-                            Id = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "bedc374d-e67c-4960-8e89-b91537865c1c",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "789012CD",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHQoxGmzOesfcLb7HANWiKDFpnEJOas/jGC6qJxUIoB2l6RUL1k+3B1PX/wFNO2PaQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "cc268f10-da37-4b8d-b996-de72d22bff0b",
-                            TwoFactorEnabled = false,
-                            UserName = "789012CD"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -438,18 +394,6 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
-                            RoleId = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c"
-                        },
-                        new
-                        {
-                            UserId = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
-                            RoleId = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

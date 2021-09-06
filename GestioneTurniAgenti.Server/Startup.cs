@@ -1,20 +1,25 @@
 using GestioneTurniAgenti.Server.Contexts;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Server.Repositories.Implementations;
+using GestioneTurniAgenti.Server.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Server
@@ -49,6 +54,36 @@ namespace GestioneTurniAgenti.Server
                 options.EnableSensitiveDataLogging();
             });
 
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<GestioneTurniDbContext>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.Lockout.AllowedForNewUsers = false;
+            });
+
+            var jwtSettings = Configuration.GetSection("JWTSettings");
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = jwtSettings["validIssuer"],
+                    ValidAudience = jwtSettings["validAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["securityKey"]))
+                };
+            });
+            services.Configure<JwtConfiguration>(Configuration.GetSection("JWTSettings"));
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+
             services.AddScoped<IAnagraficaRepository, AnagraficaRepository>();
             services.AddScoped<ITurniRepository, TurniRepository>();
             services.AddScoped<IEventiRepository, EventiRepository>();
@@ -75,6 +110,7 @@ namespace GestioneTurniAgenti.Server
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

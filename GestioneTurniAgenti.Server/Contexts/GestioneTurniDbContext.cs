@@ -1,4 +1,6 @@
 ﻿using GestioneTurniAgenti.Server.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GestioneTurniAgenti.Server.Contexts
 {
-    public class GestioneTurniDbContext : DbContext
+    public class GestioneTurniDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Agente> Agenti { get; set; }
         public DbSet<Reparto> Reparti { get; set; }
@@ -49,6 +51,8 @@ namespace GestioneTurniAgenti.Server.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             // Agente
             builder.Entity<Agente>()
                 .Property(a => a.Matricola)
@@ -99,6 +103,57 @@ namespace GestioneTurniAgenti.Server.Contexts
                 .HasCheckConstraint("CK_Eventi_InizioPrecedenteFine", "Inizio <= Fine");
 
             SeedInitialData(builder);
+            SeedInitialIdentityData(builder);
+        }
+
+        private void SeedInitialIdentityData(ModelBuilder builder)
+        {
+            builder.Entity<IdentityRole>()
+                .HasData(
+                new IdentityRole
+                {
+                    Id = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c",
+                    Name = "Admin",
+                    NormalizedName = "Admin".ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f",
+                    Name = "Super-Admin",
+                    NormalizedName = "Super-Admin".ToUpper()
+                });
+
+            var passwordHasher = new PasswordHasher<IdentityUser>();
+
+            builder.Entity<IdentityUser>()
+                .HasData(
+                new IdentityUser
+                {
+                    Id = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
+                    UserName = "123456AB",
+                    NormalizedUserName = "123456AB".ToUpper(),
+                    PasswordHash = passwordHasher.HashPassword(null, "123456AB")
+                },
+                new IdentityUser
+                {
+                    Id = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
+                    UserName = "789012CD",
+                    NormalizedUserName = "789012CD".ToUpper(),
+                    PasswordHash = passwordHasher.HashPassword(null, "789012CD")
+                });
+
+            builder.Entity<IdentityUserRole<string>>()
+                .HasData(
+                new IdentityUserRole<string>
+                {
+                    UserId = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
+                    RoleId = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c"
+                },
+                new IdentityUserRole<string>
+                {
+                    UserId = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
+                    RoleId = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f"
+                });
         }
 
         private static void SeedInitialData(ModelBuilder builder)
@@ -125,7 +180,7 @@ namespace GestioneTurniAgenti.Server.Contexts
                 .HasData(
                 new Agente
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("c4c1cfa4-b89a-47cc-9455-ece920e4fbec"),
                     Nome = "Mario",
                     Cognome = "Rossi",
                     Matricola = "123456AB",
@@ -133,7 +188,7 @@ namespace GestioneTurniAgenti.Server.Contexts
                 },
                 new Agente
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("3c1088ae-a59e-4b17-8754-48cf84b420c6"),
                     Nome = "Antonio",
                     Cognome = "Bianchi",
                     Matricola = "789012CD",
@@ -141,7 +196,7 @@ namespace GestioneTurniAgenti.Server.Contexts
                 },
                 new Agente
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("1d510fbc-9a24-4a60-810b-e8513851b1a1"),
                     Nome = "Pietro",
                     Cognome = "Verdi",
                     Matricola = "135267EF",
@@ -149,7 +204,7 @@ namespace GestioneTurniAgenti.Server.Contexts
                 },
                 new Agente
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("a77588e1-2416-4aa1-bbb9-3182c344a6ad"),
                     Nome = "Antonio",
                     Cognome = "Blu",
                     Matricola = "564922HJ",
@@ -157,7 +212,7 @@ namespace GestioneTurniAgenti.Server.Contexts
                 },
                 new Agente
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("2ee6d35d-551e-486f-956a-998bc23dd24c"),
                     Nome = "Paolo",
                     Cognome = "Viola",
                     Matricola = "789012FG",
@@ -165,7 +220,7 @@ namespace GestioneTurniAgenti.Server.Contexts
                 },
                 new Agente
                 {
-                    Id = Guid.NewGuid(),
+                    Id = new Guid("50dc6495-494c-4262-8933-caf914bea25e"),
                     Nome = "Guido",
                     Cognome = "Giallo",
                     Matricola = "123432HG",

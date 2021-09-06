@@ -3,6 +3,7 @@ using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
 using GestioneTurniAgenti.Shared.SearchParameters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 {
     [ApiController]
     [Route("api/turni")]
+    [Authorize]
     public class TurniController : ControllerBase
     {
         private readonly ILogger<TurniController> _logger;
