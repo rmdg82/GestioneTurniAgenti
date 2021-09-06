@@ -9,6 +9,6 @@ namespace GestioneTurniAgenti.Server.Services
 {
     public interface IAuthenticationService
     {
-        string GetToken(IdentityUser user);
+        Task<string> GetToken(IdentityUser user);
     }
 }

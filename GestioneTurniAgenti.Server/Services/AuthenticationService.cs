@@ -15,18 +15,20 @@ namespace GestioneTurniAgenti.Server.Services
     {
         private readonly JwtConfiguration _jwtSettings;
         private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AuthenticationService(IOptions<JwtConfiguration> jwtSettings)
+        public AuthenticationService(IOptions<JwtConfiguration> jwtSettings, UserManager<IdentityUser> userManager)
         {
             _jwtSettings = jwtSettings.Value;
             _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        public string GetToken(IdentityUser user)
+        public async Task<string> GetToken(IdentityUser user)
         {
             var signinCredentials = GetSigningCredentials();
 
-            var claims = GetClaims(user);
+            var claims = await GetClaims(user);
 
             var tokenOptions = GenerateTokenOptions(signinCredentials, claims);
 
@@ -41,12 +43,18 @@ namespace GestioneTurniAgenti.Server.Services
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
 
-        private IEnumerable<Claim> GetClaims(IdentityUser user)
+        private async Task<IEnumerable<Claim>> GetClaims(IdentityUser user)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name,user.UserName)
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             return claims;
         }

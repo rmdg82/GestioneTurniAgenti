@@ -36,7 +36,7 @@ namespace GestioneTurniAgenti.Server.Controllers
                 });
             }
 
-            var token = _authenticationService.GetToken(user);
+            var token = await _authenticationService.GetToken(user);
             return Ok(new AuthenticationResponseDto
             {
                 IsAuthSuccessful = true,
