@@ -1,7 +1,7 @@
 ﻿@page "/creaEvento"
 @using GestioneTurniAgenti.Client.Authentication
 
-@attribute [Authorize(Roles = RoleNames.SuperAdmin)]
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
 
 <h2>Crea nuovo evento</h2>
 

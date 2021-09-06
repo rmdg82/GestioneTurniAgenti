@@ -1,6 +1,7 @@
 ﻿@page "/turni"
+@using GestioneTurniAgenti.Client.Authentication
 
-@attribute [Authorize]
+@attribute [Authorize(Roles = RoleNames.Admin)]
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Ricerca turni</h5>

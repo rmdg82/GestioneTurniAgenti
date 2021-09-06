@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using Blazored.Toast;
 using GestioneTurniAgenti.Client.Authentication;
@@ -36,11 +37,13 @@ namespace GestioneTurniAgenti.Client
             builder.Services.AddScoped<IAnagraficaService, AnagraficaService>();
             builder.Services.AddScoped<IEventiService, EventiService>();
             builder.Services.AddScoped<ITurniService, TurniService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             builder.Services.AddBlazoredToast();
+            builder.Services.AddBlazoredLocalStorage();
 
             builder.Services.AddAuthorizationCore();
-            builder.Services.AddScoped<AuthenticationStateProvider, MockedAuthStateProvider>();
+            builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthStateProvider>();
 
             await builder.Build().RunAsync();
         }

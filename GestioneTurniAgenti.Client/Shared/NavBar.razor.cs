@@ -12,24 +12,5 @@ namespace GestioneTurniAgenti.Client.Shared
 {
     public partial class NavBar
     {
-        [Inject]
-        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-
-        public string LoggedUser { get; set; } = "Nessun utente";
-
-        protected override async Task OnInitializedAsync()
-        {
-            var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authstate.User;
-
-            if (!user.Identity.IsAuthenticated)
-            {
-                LoggedUser = "Non autenticato";
-            }
-            else
-            {
-                LoggedUser = user.Identity.Name;
-            }
-        }
     }
 }
