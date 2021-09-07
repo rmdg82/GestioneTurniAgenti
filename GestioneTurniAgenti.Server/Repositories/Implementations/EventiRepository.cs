@@ -120,6 +120,8 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
                 query = query.Where(e => eventiIdFromTurni.Contains(e.Id));
             }
 
+            query = query.OrderBy(e => e.Nome);
+
             if (trackChanges)
             {
                 return await query.ToListAsync();
