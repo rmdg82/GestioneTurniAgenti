@@ -37,9 +37,9 @@ namespace GestioneTurniAgenti.Client.AuthProviders
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token))));
         }
 
-        public void NotifyUserAuthentication(string username)
+        public void NotifyUserAuthentication(string token)
         {
-            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }, "jwtAuthType"));
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType"));
 
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
 

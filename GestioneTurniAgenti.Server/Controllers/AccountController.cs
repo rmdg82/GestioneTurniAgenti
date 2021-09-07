@@ -1,4 +1,5 @@
-﻿using GestioneTurniAgenti.Server.Services;
+﻿using GestioneTurniAgenti.Server.Repositories.Contracts;
+using GestioneTurniAgenti.Server.Services;
 using GestioneTurniAgenti.Shared.Dtos.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ namespace GestioneTurniAgenti.Server.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IAnagraficaRepository _anagraficaRepository;
 
-        public AccountController(UserManager<IdentityUser> userManager, IAuthenticationService authenticationService)
+        public AccountController(UserManager<IdentityUser> userManager, IAuthenticationService authenticationService, IAnagraficaRepository anagraficaRepository)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
+            _anagraficaRepository = anagraficaRepository ?? throw new ArgumentNullException(nameof(anagraficaRepository));
         }
 
         [HttpPost("login")]
@@ -37,10 +40,22 @@ namespace GestioneTurniAgenti.Server.Controllers
             }
 
             var token = await _authenticationService.GetToken(user);
+            var agente = (await _anagraficaRepository.GetAgenti(a => a.Matricola.Equals(userForAuthenticationDto.Username.ToUpper()))).SingleOrDefault();
+            if (agente != null)
+            {
+                return Ok(new AuthenticationResponseDto
+                {
+                    IsAuthSuccessful = true,
+                    Token = token,
+                    RepartoId = agente.RepartoId,
+                    NomeReparto = agente.Reparto.Nome
+                });
+            };
+
             return Ok(new AuthenticationResponseDto
             {
                 IsAuthSuccessful = true,
-                Token = token
+                Token = token,
             });
         }
     }

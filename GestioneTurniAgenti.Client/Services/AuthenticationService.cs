@@ -39,7 +39,9 @@ namespace GestioneTurniAgenti.Client.Services
                 return result;
 
             await _localStorageService.SetItemAsync("authToken", result.Token);
-            ((JwtAuthStateProvider)_authStateProvider).NotifyUserAuthentication(userForAuthenticationDto.Username);
+            await _localStorageService.SetItemAsStringAsync("nomeReparto", result.NomeReparto);
+            await _localStorageService.SetItemAsync("repartoId", result.RepartoId);
+            ((JwtAuthStateProvider)_authStateProvider).NotifyUserAuthentication(result.Token);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.Token);
 
             return new AuthenticationResponseDto { IsAuthSuccessful = true };
@@ -48,6 +50,8 @@ namespace GestioneTurniAgenti.Client.Services
         public async Task Logout()
         {
             await _localStorageService.RemoveItemAsync("authToken");
+            await _localStorageService.RemoveItemAsync("nomeReparto");
+            await _localStorageService.RemoveItemAsync("repartoId");
             ((JwtAuthStateProvider)_authStateProvider).NotifyUserLogout();
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }

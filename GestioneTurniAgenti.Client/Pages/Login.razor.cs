@@ -34,7 +34,7 @@ namespace GestioneTurniAgenti.Client.Pages
             }
             else
             {
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/anagrafica");
             }
         }
     }

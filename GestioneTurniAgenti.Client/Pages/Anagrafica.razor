@@ -1,7 +1,8 @@
-﻿@page "/"
-@page "/anagrafica"
+﻿@page "/anagrafica"
 
-@attribute [Authorize]
+@using GestioneTurniAgenti.Client.Authentication
+
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Ricerca agenti</h5>

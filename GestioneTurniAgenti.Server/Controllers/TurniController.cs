@@ -17,7 +17,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 {
     [ApiController]
     [Route("api/turni")]
-    [Authorize]
+    [Authorize(Roles = "Admin,Super-Admin")]
     public class TurniController : ControllerBase
     {
         private readonly ILogger<TurniController> _logger;

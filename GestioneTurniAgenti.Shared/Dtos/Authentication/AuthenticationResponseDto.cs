@@ -10,6 +10,8 @@ namespace GestioneTurniAgenti.Shared.Dtos.Authentication
     {
         public bool IsAuthSuccessful { get; set; }
         public string ErrorMessage { get; set; }
+        public Guid RepartoId { get; set; }
+        public string NomeReparto { get; set; }
         public string Token { get; set; }
     }
 }

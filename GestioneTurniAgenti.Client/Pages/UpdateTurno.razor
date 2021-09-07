@@ -1,4 +1,7 @@
 ﻿@page "/modificaTurno/{turnoId:guid}"
+@using GestioneTurniAgenti.Client.Authentication
+
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
 
 <h2>Modifica turno</h2>
 
