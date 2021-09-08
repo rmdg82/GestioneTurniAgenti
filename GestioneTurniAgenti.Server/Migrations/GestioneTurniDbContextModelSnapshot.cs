@@ -107,6 +107,9 @@ namespace GestioneTurniAgenti.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
 
@@ -119,6 +122,9 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -196,6 +202,9 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.Property<Guid>("AgenteId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
 
@@ -207,6 +216,9 @@ namespace GestioneTurniAgenti.Server.Migrations
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -250,14 +262,14 @@ namespace GestioneTurniAgenti.Server.Migrations
                         new
                         {
                             Id = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c",
-                            ConcurrencyStamp = "fe5ab6bc-6a4b-46d8-88ef-498196c3195d",
+                            ConcurrencyStamp = "9637cfc7-c078-4e01-a198-3ecc7b5cbdb4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f",
-                            ConcurrencyStamp = "78360f14-2957-4c7c-a9f4-c89ecd1ab894",
+                            ConcurrencyStamp = "32d15f30-a654-4364-93ee-25aa36d14892",
                             Name = "Super-Admin",
                             NormalizedName = "SUPER-ADMIN"
                         });
@@ -354,13 +366,13 @@ namespace GestioneTurniAgenti.Server.Migrations
                         {
                             Id = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6434dcb-b833-4613-947f-7573c62f21d6",
+                            ConcurrencyStamp = "0d0b2238-4863-4d86-ac89-ca52983f220f",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "123456AB",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOpWTr/ydmC85EK/MQ51G0+yW0V7Vx8kaoV6U46Qsn3XkQ1BN11xt+P/H/Ct49N0lA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBhCzSjp9Xitqv6LXPb2I01Y0LfEv+ZTqsk2Widllwynhg5Qi8ZU3cDdymz/h+TO6Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d5e001d2-92ea-4f42-9278-276d451075cb",
+                            SecurityStamp = "9b5f1901-7323-460d-82ea-a68b9a149a55",
                             TwoFactorEnabled = false,
                             UserName = "123456AB"
                         },
@@ -368,13 +380,13 @@ namespace GestioneTurniAgenti.Server.Migrations
                         {
                             Id = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bedc374d-e67c-4960-8e89-b91537865c1c",
+                            ConcurrencyStamp = "23187f43-9ef7-41df-9292-a79d9e4e05fc",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "789012CD",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHQoxGmzOesfcLb7HANWiKDFpnEJOas/jGC6qJxUIoB2l6RUL1k+3B1PX/wFNO2PaQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGf1TDH+2froD1Ik9pGoCRX8feTVHfRH5YopiQ3p7fhb+vLHgCi2PBLiHreTHhAaMA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cc268f10-da37-4b8d-b996-de72d22bff0b",
+                            SecurityStamp = "da55d106-8bad-48e6-aa75-817c48fa09f4",
                             TwoFactorEnabled = false,
                             UserName = "789012CD"
                         });

@@ -46,6 +46,9 @@ namespace GestioneTurniAgenti.Server
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddHttpContextAccessor();
+            services.AddTransient<IUserResolverService, UserResolverService>();
+
             string sqlliteDbFolder = Path.Combine(Directory.GetCurrentDirectory(), Configuration.GetConnectionString("DbFolder"));
             services.AddDbContext<GestioneTurniDbContext>(options =>
             {

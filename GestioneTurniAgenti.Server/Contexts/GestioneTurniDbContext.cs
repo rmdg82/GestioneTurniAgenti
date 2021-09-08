@@ -1,4 +1,5 @@
 ﻿using GestioneTurniAgenti.Server.Entities;
+using GestioneTurniAgenti.Server.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,17 @@ namespace GestioneTurniAgenti.Server.Contexts
 {
     public class GestioneTurniDbContext : IdentityDbContext<IdentityUser>
     {
+        private readonly IUserResolverService _userResolverService;
+
         public DbSet<Agente> Agenti { get; set; }
         public DbSet<Reparto> Reparti { get; set; }
         public DbSet<Turno> Turni { get; set; }
         public DbSet<Evento> Eventi { get; set; }
 
-        public GestioneTurniDbContext(DbContextOptions<GestioneTurniDbContext> options)
+        public GestioneTurniDbContext(DbContextOptions<GestioneTurniDbContext> options, IUserResolverService userResolverService)
             : base(options)
         {
+            _userResolverService = userResolverService ?? throw new ArgumentNullException(nameof(userResolverService));
         }
 
         /// <summary>
@@ -29,6 +33,7 @@ namespace GestioneTurniAgenti.Server.Contexts
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var utcNow = DateTime.UtcNow;
+            var username = _userResolverService.GetUsername();
 
             foreach (var entry in ChangeTracker.Entries())
             {
@@ -38,11 +43,15 @@ namespace GestioneTurniAgenti.Server.Contexts
                         case EntityState.Added:
                             entity.CreatedOn = utcNow;
                             entity.UpdatedOn = utcNow;
+                            entity.CreatedBy = username;
+                            entity.UpdatedBy = username;
                             break;
 
                         case EntityState.Modified:
                             entry.Property("CreatedOn").IsModified = false;
                             entity.UpdatedOn = utcNow;
+                            entry.Property("CreatedBy").IsModified = false;
+                            entity.UpdatedBy = username;
                             break;
                     }
             }

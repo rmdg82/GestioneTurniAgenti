@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestioneTurniAgenti.Server.Migrations
 {
     [DbContext(typeof(GestioneTurniDbContext))]
-    [Migration("20210905154250_AddIdentityIntegrationWithUserAndRoles")]
-    partial class AddIdentityIntegrationWithUserAndRoles
+    [Migration("20210908080736_ReinitializeTheDb")]
+    partial class ReinitializeTheDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,7 +55,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("02ba7d6d-a4bf-4144-99f9-cac84ed29790"),
+                            Id = new Guid("c4c1cfa4-b89a-47cc-9455-ece920e4fbec"),
                             Cognome = "Rossi",
                             Matricola = "123456AB",
                             Nome = "Mario",
@@ -63,7 +63,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("39c654db-da8d-4f7d-911a-a9e857a77ea7"),
+                            Id = new Guid("3c1088ae-a59e-4b17-8754-48cf84b420c6"),
                             Cognome = "Bianchi",
                             Matricola = "789012CD",
                             Nome = "Antonio",
@@ -71,7 +71,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("40a34a84-412e-4c53-8dfe-db739bd01202"),
+                            Id = new Guid("1d510fbc-9a24-4a60-810b-e8513851b1a1"),
                             Cognome = "Verdi",
                             Matricola = "135267EF",
                             Nome = "Pietro",
@@ -79,7 +79,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4e051e63-f614-4c2a-9e93-2eeaa5a3c9db"),
+                            Id = new Guid("a77588e1-2416-4aa1-bbb9-3182c344a6ad"),
                             Cognome = "Blu",
                             Matricola = "564922HJ",
                             Nome = "Antonio",
@@ -87,7 +87,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c74e7f28-6216-48bf-8683-5cadc92ddf67"),
+                            Id = new Guid("2ee6d35d-551e-486f-956a-998bc23dd24c"),
                             Cognome = "Viola",
                             Matricola = "789012FG",
                             Nome = "Paolo",
@@ -95,7 +95,7 @@ namespace GestioneTurniAgenti.Server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("43bf846b-32d4-4484-a1e9-be79177a23ba"),
+                            Id = new Guid("50dc6495-494c-4262-8933-caf914bea25e"),
                             Cognome = "Giallo",
                             Matricola = "123432HG",
                             Nome = "Guido",
@@ -107,6 +107,9 @@ namespace GestioneTurniAgenti.Server.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedOn")
@@ -121,6 +124,9 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -198,6 +204,9 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.Property<Guid>("AgenteId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
 
@@ -209,6 +218,9 @@ namespace GestioneTurniAgenti.Server.Migrations
 
                     b.Property<string>("Note")
                         .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -247,6 +259,22 @@ namespace GestioneTurniAgenti.Server.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c",
+                            ConcurrencyStamp = "9637cfc7-c078-4e01-a198-3ecc7b5cbdb4",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f",
+                            ConcurrencyStamp = "32d15f30-a654-4364-93ee-25aa36d14892",
+                            Name = "Super-Admin",
+                            NormalizedName = "SUPER-ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -334,6 +362,36 @@ namespace GestioneTurniAgenti.Server.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0d0b2238-4863-4d86-ac89-ca52983f220f",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "123456AB",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBhCzSjp9Xitqv6LXPb2I01Y0LfEv+ZTqsk2Widllwynhg5Qi8ZU3cDdymz/h+TO6Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "9b5f1901-7323-460d-82ea-a68b9a149a55",
+                            TwoFactorEnabled = false,
+                            UserName = "123456AB"
+                        },
+                        new
+                        {
+                            Id = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "23187f43-9ef7-41df-9292-a79d9e4e05fc",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "789012CD",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGf1TDH+2froD1Ik9pGoCRX8feTVHfRH5YopiQ3p7fhb+vLHgCi2PBLiHreTHhAaMA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "da55d106-8bad-48e6-aa75-817c48fa09f4",
+                            TwoFactorEnabled = false,
+                            UserName = "789012CD"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -394,6 +452,18 @@ namespace GestioneTurniAgenti.Server.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "c4c1cfa4-b89a-47cc-9455-ece920e4fbec",
+                            RoleId = "cb5e5f39-cd6b-4a7c-ba43-c132ed10902c"
+                        },
+                        new
+                        {
+                            UserId = "3c1088ae-a59e-4b17-8754-48cf84b420c6",
+                            RoleId = "30f56dc1-007b-4bad-9e9c-8be1d8bc2a5f"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
