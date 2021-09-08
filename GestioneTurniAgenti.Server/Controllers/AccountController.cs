@@ -40,17 +40,6 @@ namespace GestioneTurniAgenti.Server.Controllers
             }
 
             var token = await _authenticationService.GetToken(user);
-            var agente = (await _anagraficaRepository.GetAgenti(a => a.Matricola.Equals(userForAuthenticationDto.Username.ToUpper()))).SingleOrDefault();
-            if (agente != null)
-            {
-                return Ok(new AuthenticationResponseDto
-                {
-                    IsAuthSuccessful = true,
-                    Token = token,
-                    RepartoId = agente.RepartoId,
-                    NomeReparto = agente.Reparto.Nome
-                });
-            };
 
             return Ok(new AuthenticationResponseDto
             {

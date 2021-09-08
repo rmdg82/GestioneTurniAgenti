@@ -4,8 +4,8 @@
     </div>
     <AuthorizeView>
         <Authorized>
-            <div class="ml-auto pr-5 bd-highlight font-weight-bolder">
-                <span class="oi oi-person" aria-hidden="true"></span> @context.User.Identity.Name
+            <div class="ml-auto pr-5 bd-highlight">
+                <span class="oi oi-person" aria-hidden="true"></span> <strong>@context.User.Identity.Name</strong>/@Reparto (@Role)
                 <a class="btn btn-outline-danger" href="logout"><span class="oi oi-account-logout" aria-hidden="true"></span> Logout</a>
             </div>
         </Authorized>
