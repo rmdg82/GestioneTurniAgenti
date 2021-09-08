@@ -10,13 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
+using GestioneTurniAgenti.Client.Authentication;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
     public partial class Anagrafica : IDisposable
     {
         [CascadingParameter]
-        public Task<AuthenticationState> AuthState { get; set; }
+        public Task<AuthenticationState> AuthenticationStateTask { get; set; }
 
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
@@ -32,10 +33,45 @@ namespace GestioneTurniAgenti.Client.Pages
         public AgentiSearchParameters AgentiSearchParameters { get; set; } = new();
         public IEnumerable<AgenteDto> Agenti { get; set; } = null;
 
+        private bool _isSuperAdmin;
+
         protected override async Task OnInitializedAsync()
         {
             Interceptor.RegisterEvent();
-            await GetAllReparti();
+            var authState = await AuthenticationStateTask;
+            string username = null;
+            if (authState.User.Identity.IsAuthenticated)
+            {
+                username = authState.User.Identity.Name;
+                var roleClaim = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("role"));
+                _isSuperAdmin = roleClaim.Value == RoleNames.SuperAdmin;
+            }
+
+            if (_isSuperAdmin)
+            {
+                await GetAllReparti();
+            }
+            else
+            {
+                await GetOwnReparto(username);
+            }
+        }
+
+        private async Task GetOwnReparto(string username)
+        {
+            if (username is null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            var ownRepartoGuid =
+                (await AnagraficaService.GetAllAgenti(new AgentiSearchParameters { Matricola = username }))
+                .SingleOrDefault()
+                .RepartoId;
+            var reparto = await AnagraficaService.GetRepartoById(ownRepartoGuid);
+            AgentiSearchParameters.RepartoId = ownRepartoGuid;
+
+            Reparti.Add(reparto);
         }
 
         public async Task GetAllReparti()
@@ -47,11 +83,6 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             Agenti = await AnagraficaService.GetAllAgenti(AgentiSearchParameters);
             StateHasChanged();
-        }
-
-        private string GetAggiungiTurnoUrl(Guid agenteId)
-        {
-            return $"/aggiungiTurno/{agenteId}";
         }
 
         public void Dispose()

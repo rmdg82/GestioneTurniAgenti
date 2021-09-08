@@ -17,14 +17,26 @@
                 <input type="text" class="form-control" placeholder="Matricola Agente" @bind-value="TurniSearchParameters.AgenteMatricola" />
             </div>
             <div class="form-group col-md-6">
-                <select class="form-control" @bind="TurniSearchParameters.RepartoId">
-                    <option selected>Scegli reparto...</option>
-                    <option value="">Tutti i reparti</option>
-                    @foreach (var reparto in Reparti)
-                    {
-                        <option value="@reparto.Id">@reparto.Nome</option>
-                    }
-                </select>
+                @if (_isSuperAdmin)
+                {
+                    <select class="form-control" @bind="TurniSearchParameters.RepartoId">
+                        <option selected>Scegli reparto...</option>
+                        <option value="">Tutti i reparti</option>
+                        @foreach (var reparto in Reparti)
+                        {
+                            <option value="@reparto.Id">@reparto.Nome</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <select class="form-control" @bind="TurniSearchParameters.RepartoId">
+                        @foreach (var reparto in Reparti)
+                        {
+                            <option selected value="@reparto.Id">@reparto.Nome</option>
+                        }
+                    </select>
+                }
             </div>
 
             <div class="form-group col-md-6">

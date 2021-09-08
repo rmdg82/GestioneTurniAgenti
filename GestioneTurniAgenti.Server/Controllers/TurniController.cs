@@ -145,7 +145,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpPost("massivo")]
-        public async Task<IActionResult> LoadTurniFromMassivo()
+        public IActionResult LoadTurniFromMassivo()
         {
             // Il servizio non è ancora implementato
             return StatusCode(503, "Servizio non ancora implementato.");
