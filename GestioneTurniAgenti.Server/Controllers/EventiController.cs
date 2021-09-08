@@ -3,6 +3,7 @@ using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Eventi;
 using GestioneTurniAgenti.Shared.SearchParameters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -41,6 +42,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpGet("{eventoId}", Name = "EventoById")]
+        [Authorize(Roles = "Admin,Super-Admin")]
         public async Task<ActionResult<EventoDto>> GetEventoById(Guid eventoId)
         {
             var evento = await _eventiRepository.GetById(eventoId);
@@ -57,6 +59,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Super-Admin")]
         public async Task<IActionResult> CreateEvento([FromBody] EventoForCreationDto eventoForCreation)
         {
             if (eventoForCreation == null)
@@ -82,6 +85,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpPut("{eventoId}")]
+        [Authorize(Roles = "Super-Admin")]
         public async Task<IActionResult> UpdateEvento(Guid eventoId, [FromBody] EventoForUpdateDto eventoForUpdate)
         {
             if (eventoForUpdate == null)
@@ -96,11 +100,6 @@ namespace GestioneTurniAgenti.Server.Controllers
                 return NotFound();
             }
 
-            if (await _eventiRepository.CheckDuplicatedEvento(eventoForUpdate.Inizio, eventoForUpdate.Fine, eventoForUpdate.Nome))
-            {
-                return BadRequest($"Evento con nome {eventoForUpdate.Nome} esiste già nel database.");
-            }
-
             if (await _eventiRepository.CheckInizioFineCompatibilityWithTurni(eventoId, eventoForUpdate.Inizio, eventoForUpdate.Fine, out int numTurni))
             {
                 return BadRequest($"Modifica date inizio e fine dell'evento con nome {eventoForUpdate.Nome} non permessa. Lascierebbe {numTurni} turni senza evento di riferimento.");
@@ -113,6 +112,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpDelete("{eventoId}")]
+        [Authorize(Roles = "Super-Admin")]
         public async Task<IActionResult> DeleteEvento(Guid eventoId)
         {
             var evento = await _eventiRepository.GetById(eventoId);

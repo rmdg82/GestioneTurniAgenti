@@ -1,4 +1,6 @@
-﻿@attribute [Authorize]
+﻿@using GestioneTurniAgenti.Client.Authentication
+
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
 
 <div class="modal" tabindex="-1" role="dialog" style="display:@_modalDisplay">
     <div class="modal-dialog" role="document">

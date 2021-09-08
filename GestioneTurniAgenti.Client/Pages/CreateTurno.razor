@@ -1,5 +1,9 @@
 ﻿@page "/aggiungiTurno/{agenteId:guid}"
 
+@using GestioneTurniAgenti.Client.Authentication
+
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
+
 <h2>Aggiungi nuovo turno</h2>
 
 <EditForm EditContext="_editContext" OnValidSubmit="Create" class="card card-body bg-light mt-5">

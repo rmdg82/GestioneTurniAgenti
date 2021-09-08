@@ -1,7 +1,8 @@
-﻿@page "/"
-@page "/anagrafica"
+﻿@page "/anagrafica"
 
-@attribute [Authorize]
+@using GestioneTurniAgenti.Client.Authentication
+
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Ricerca agenti</h5>
@@ -17,14 +18,26 @@
                 <input type="text" class="form-control" id="inputMatricola" placeholder="Matricola" @bind-value="AgentiSearchParameters.Matricola" />
             </div>
             <div class="form-group col-md-6">
-                <select id="inputReparto" class="form-control" @bind="AgentiSearchParameters.RepartoId">
-                    <option selected>Scegli reparto...</option>
-                    <option value="">Tutti i reparti</option>
-                    @foreach (var reparto in Reparti)
-                    {
-                        <option value="@reparto.Id">@reparto.Nome</option>
-                    }
-                </select>
+                @if (_isSuperAdmin)
+                {
+                    <select id="inputReparto" class="form-control" @bind="AgentiSearchParameters.RepartoId">
+                        <option selected>Scegli reparto...</option>
+                        <option value="">Tutti i reparti</option>
+                        @foreach (var reparto in Reparti)
+                        {
+                            <option value="@reparto.Id">@reparto.Nome</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <select id="inputReparto" class="form-control" @bind="AgentiSearchParameters.RepartoId">
+                        @foreach (var reparto in Reparti)
+                        {
+                            <option value="@reparto.Id">@reparto.Nome</option>
+                        }
+                    </select>
+                }
             </div>
             <button type="submit" class="btn btn-lg btn-primary ml-1" @onclick="GetAgenti"><span class="oi oi-magnifying-glass"></span> Cerca</button>
         </div>
@@ -51,7 +64,7 @@
                     <td>@agente.Cognome</td>
                     <td>@agente.Matricola</td>
                     <td>@agente.NomeReparto</td>
-                    <td><NavLink href="@GetAggiungiTurnoUrl(agente.Id)">Aggiungi turno</NavLink></td>
+                    <td><a href="/aggiungiTurno/@(agente.Id)">Aggiungi turno</a></td>
                 </tr>
             }
         </tbody>

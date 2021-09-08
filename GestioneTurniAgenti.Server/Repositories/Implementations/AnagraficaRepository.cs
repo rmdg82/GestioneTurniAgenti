@@ -80,6 +80,8 @@ namespace GestioneTurniAgenti.Server.Repositories.Implementations
                 query = query.Where(a => a.RepartoId.Equals(parameters.RepartoId));
             }
 
+            query = query.OrderBy(a => a.Nome).ThenBy(a => a.Cognome);
+
             if (trackChanges)
             {
                 return await query.ToListAsync();

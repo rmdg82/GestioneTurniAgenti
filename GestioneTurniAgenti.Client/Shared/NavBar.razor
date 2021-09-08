@@ -2,7 +2,17 @@
     <div class="p-1 bd-highlight">
         <img src="/assets/img/Carabinieri.png" class="text-left" height="60" width="60" />
     </div>
-    <div class="ml-auto pr-5 bd-highlight font-weight-bolder">
-        <span class="oi oi-person" aria-hidden="true"></span> @LoggedUser
-    </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="ml-auto pr-5 bd-highlight">
+                <span class="oi oi-person" aria-hidden="true"></span> <strong>@context.User.Identity.Name</strong>/@Reparto (@Role)
+                <a class="btn btn-outline-danger" href="logout"><span class="oi oi-account-logout" aria-hidden="true"></span> Logout</a>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="ml-auto pr-5 bd-highlight font-weight-bolder">
+                <a class="btn btn-outline-primary" href="login"><span class="oi oi-account-login" aria-hidden="true"></span> Login</a>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>

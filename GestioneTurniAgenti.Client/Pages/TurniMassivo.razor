@@ -1,4 +1,7 @@
 ﻿@page "/turni/massivo"
+@using GestioneTurniAgenti.Client.Authentication
+
+@attribute [Authorize(Roles = RoleNames.Admin + "," + RoleNames.SuperAdmin)]
 
 <h2>Carica turni da file CSV</h2>
 <br />
@@ -12,9 +15,9 @@
 {
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Tabella riepilogo turni da file (risultato fake)</h4>
+            <h3 class="card-title">Tabella riepilogo turni da file (risultato fake)</h3>
 
-            <table class="table table-hover">
+            <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Matricola Agente</th>
@@ -40,6 +43,24 @@
                         <td>789012CD</td>
                         <td>Evento1</td>
                         <td>01/03/2021</td>
+                        <td><span class="oi oi-circle-check"></span></td>
+                    </tr>
+                    <tr class="table-danger">
+                        <td>135267EF</td>
+                        <td>Evento3</td>
+                        <td>24/02/2021</td>
+                        <td><span class="oi oi-circle-x"></span></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>123432HG</td>
+                        <td>Evento1</td>
+                        <td>02/10/2021</td>
+                        <td><span class="oi oi-circle-check"></span></td>
+                    </tr>
+                    <tr class="table-success">
+                        <td>789012CD</td>
+                        <td>Evento2</td>
+                        <td>10/11/2021</td>
                         <td><span class="oi oi-circle-check"></span></td>
                     </tr>
                 </tbody>

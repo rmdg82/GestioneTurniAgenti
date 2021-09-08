@@ -3,6 +3,7 @@ using GestioneTurniAgenti.Server.Entities;
 using GestioneTurniAgenti.Server.Repositories.Contracts;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
 using GestioneTurniAgenti.Shared.SearchParameters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ namespace GestioneTurniAgenti.Server.Controllers
 {
     [ApiController]
     [Route("api/turni")]
+    [Authorize(Roles = "Admin,Super-Admin")]
     public class TurniController : ControllerBase
     {
         private readonly ILogger<TurniController> _logger;
@@ -143,7 +145,7 @@ namespace GestioneTurniAgenti.Server.Controllers
         }
 
         [HttpPost("massivo")]
-        public async Task<IActionResult> LoadTurniFromMassivo()
+        public IActionResult LoadTurniFromMassivo()
         {
             // Il servizio non è ancora implementato
             return StatusCode(503, "Servizio non ancora implementato.");

@@ -7,17 +7,23 @@ using GestioneTurniAgenti.Shared.Dtos.Eventi;
 using GestioneTurniAgenti.Shared.Dtos.Turno;
 using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using GestioneTurniAgenti.Client.Authentication;
 
 namespace GestioneTurniAgenti.Client.Pages
 {
     public partial class Turni : IDisposable
     {
+        [CascadingParameter]
+        public Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
         [Inject]
         public IAnagraficaService AnagraficaService { get; set; }
 
@@ -42,10 +48,30 @@ namespace GestioneTurniAgenti.Client.Pages
         public TurniSearchParameters TurniSearchParameters { get; set; } = new();
         public IEnumerable<TurnoDto> TurniReturned { get; set; } = null;
 
+        private bool _isSuperAdmin;
+
         protected override async Task OnInitializedAsync()
         {
             Interceptor.RegisterEvent();
-            await GetAllReparti();
+            var authState = await AuthenticationStateTask;
+            string username = null;
+
+            if (authState.User.Identity.IsAuthenticated)
+            {
+                username = authState.User.Identity.Name;
+                var roleClaim = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("role"));
+                _isSuperAdmin = roleClaim.Value == RoleNames.SuperAdmin;
+            }
+
+            if (_isSuperAdmin)
+            {
+                await GetAllReparti();
+            }
+            else
+            {
+                await GetOwnReparto(username);
+            }
+
             await GetAllEventi();
             StateHasChanged();
         }
@@ -53,6 +79,23 @@ namespace GestioneTurniAgenti.Client.Pages
         public async Task GetAllReparti()
         {
             Reparti = (await AnagraficaService.GetAllReparti()).ToList();
+        }
+
+        public async Task GetOwnReparto(string username)
+        {
+            if (username is null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            var ownRepartoGuid =
+                (await AnagraficaService.GetAllAgenti(new AgentiSearchParameters { Matricola = username }))
+                .SingleOrDefault()
+                .RepartoId;
+            var reparto = await AnagraficaService.GetRepartoById(ownRepartoGuid);
+            TurniSearchParameters.RepartoId = ownRepartoGuid;
+
+            Reparti.Add(reparto);
         }
 
         public async Task GetAllEventi()

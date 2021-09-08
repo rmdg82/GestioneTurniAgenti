@@ -27,13 +27,13 @@ namespace GestioneTurniAgenti.Client.Pages
         {
             if (e.FileCount == 1 && e.File.Size > 0)
             {
-                using var ms = e.File.OpenReadStream();
-                var content = new MultipartFormDataContent();
-                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
-                content.Add(new StreamContent(ms), "file", e.File.Name);
-
                 try
                 {
+                    using var ms = e.File.OpenReadStream();
+                    var content = new MultipartFormDataContent();
+                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data");
+                    content.Add(new StreamContent(ms), "file", e.File.Name);
+
                     _filesent = true;
                     await TurniService.CreateFromMassivo(content);
                 }

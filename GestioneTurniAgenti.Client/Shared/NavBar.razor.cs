@@ -4,7 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
+using Blazored.Toast.Services;
 using GestioneTurniAgenti.Client.AuthProviders;
+using GestioneTurniAgenti.Client.Services;
+using GestioneTurniAgenti.Shared.SearchParameters;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -12,23 +16,27 @@ namespace GestioneTurniAgenti.Client.Shared
 {
     public partial class NavBar
     {
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
         [Inject]
-        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        public IAnagraficaService AnagraficaService { get; set; }
 
-        public string LoggedUser { get; set; } = "Nessun utente";
+        public string Reparto { get; set; } = null;
+        public string Username { get; set; } = null;
+        public string Role { get; set; } = null;
 
-        protected override async Task OnInitializedAsync()
+        protected override async Task OnParametersSetAsync()
         {
-            var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authstate.User;
-
-            if (!user.Identity.IsAuthenticated)
+            var authState = await AuthenticationStateTask;
+            if (authState.User.Identity.IsAuthenticated)
             {
-                LoggedUser = "Non autenticato";
-            }
-            else
-            {
-                LoggedUser = user.Identity.Name;
+                var username = authState.User.Identity.Name;
+                Username = username;
+                var roleClaim = authState.User.Claims.FirstOrDefault(c => c.Type.Contains("role"));
+                Role = roleClaim.Value;
+                var repartoId = (await AnagraficaService.GetAllAgenti(new AgentiSearchParameters { Matricola = Username })).FirstOrDefault().RepartoId;
+                Reparto = (await AnagraficaService.GetRepartoById(repartoId)).Nome;
             }
         }
     }
